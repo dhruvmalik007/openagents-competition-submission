@@ -1,0 +1,124 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "drift-protocol",
+  "protocolName": "Drift Protocol",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "drift-protocol-2026-04-09",
+    "notes": "Cross-chain incident metadata for the Drift Protocol case described by Rekt. The public writeup ties the exploit flow to a counterfeit asset on Solana, new authority accounts, and multiple Ethereum-side recipient wallets.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "CounterfeitCVTMint",
+      "address": "G84LEhbNMR1yYbHgHbnNYNSK8mpTKcazh5jcW5yMPQKo",
+      "chain": "Solana",
+      "category": "token",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Counterfeit mint address referenced in the incident analysis."
+    },
+    {
+      "name": "NewMultisigNonceAccount",
+      "address": "6UJbu9ut5VAsFYQFgPEa5xPfoyF5bB5oi4EknFPvu924",
+      "chain": "Solana",
+      "category": "governance",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "New authority-related account named in the Rekt article."
+    },
+    {
+      "name": "EthereumExitWallet1",
+      "address": "0xD3FEEd5DA83D8e8c449d6CB96ff1eb06ED1cF6C7",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Ethereum-side wallet named in the public incident flow."
+    },
+    {
+      "name": "EthereumExitWallet2",
+      "address": "0xAa843eD65C1f061F111B5289169731351c5e57C1",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Ethereum-side wallet named in the public incident flow."
+    },
+    {
+      "name": "EthereumExitWallet3",
+      "address": "0xbDdAE987FEe930910fCC5aa403D5688fB440561B",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Ethereum-side wallet named in the public incident flow."
+    },
+    {
+      "name": "EthereumExitWallet4",
+      "address": "0x0FE3b6908318B1F630daa5B31B49a15fC5F6B674",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Ethereum-side wallet named in the public incident flow."
+    },
+    {
+      "name": "ChainflipDestination",
+      "address": "0xd91a122b585bc588c9a48d0995ee0d7b4f8ab7dd",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Destination address associated with Chainflip routing."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "Drift official site",
+      "url": "https://www.drift.trade/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/drift-protocol-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Ethereum explorer",
+      "url": "https://etherscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Solana explorer",
+      "url": "https://solscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/drift-protocol-rekt",
+      "https://www.drift.trade/"
+    ],
+    "resolutionStrategy": [
+      "Use the official Drift site for protocol identity and security posture context",
+      "Treat Solana and Ethereum attacker-linked accounts from the incident page as replay metadata",
+      "Attach program IDs and deployed core contracts later from Drift developer resources"
+    ]
+  }
+}

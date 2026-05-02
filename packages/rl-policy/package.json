@@ -1,0 +1,29 @@
+{
+  "name": "@aegis-arena/rl-policy",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aegis-arena/openagents_autoresearch.git",
+    "directory": "packages/rl-policy"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "package.json"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@aegis-arena/core": "workspace:*",
+    "@aegis-arena/og": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

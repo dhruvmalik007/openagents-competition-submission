@@ -1,0 +1,135 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "hyperbridge",
+  "protocolName": "Hyperbridge",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "hyperbridge-2026-04-15",
+    "notes": "Cross-chain interoperability protocol inventory built from the Hyperbridge docs, GitHub repository, and the 2026 Rekt incident page. The incident metadata includes exploit contracts, the vulnerable handler, and attacker wallets.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "PrimaryAttackerEOA",
+      "address": "0xc513e4f5d7a93a1dd5b7c4d9f6cc2f52d2f1f8e7",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Primary attacker wallet cited in the public incident analysis."
+    },
+    {
+      "name": "EarlierAttackerEOA",
+      "address": "0xc0564bBa9Ba5A9bE95AE866429F936012E1bF143",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Earlier linked attacker wallet surfaced in the same investigation."
+    },
+    {
+      "name": "PredeployedExploitContract",
+      "address": "0x31a165a956842aB783098641dB25C7a9067ca9AB",
+      "chain": "Ethereum",
+      "category": "proxy",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Exploit preparation contract named in the Rekt article."
+    },
+    {
+      "name": "MinimalProxyAttackVehicle",
+      "address": "0x518ab393c3f42613d010b54a9dcbe211e3d48f26",
+      "chain": "Ethereum",
+      "category": "proxy",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Minimal proxy used during the exploit flow."
+    },
+    {
+      "name": "TokenGateway",
+      "address": "0xFd413e3AFe560182C4471F4d143A96d3e259B6dE",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Gateway contract referenced in public incident analysis."
+    },
+    {
+      "name": "AttackPathContract",
+      "address": "0xCcd363E1A098558b17431b934fffac9906855a5d",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Contract used during the attack path."
+    },
+    {
+      "name": "HandlerV1",
+      "address": "0x6C84eDd2A018b1fe2Fc93a56066B5C60dA4E6D64",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Vulnerable handler named in the incident writeup."
+    },
+    {
+      "name": "HijackedDOTToken",
+      "address": "0x8d010bf9c26881788b4e6bf5fd1bdc358c8f90b8",
+      "chain": "Ethereum",
+      "category": "token",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "DOT token address referenced as part of the exploit chain."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "docs",
+      "label": "Hyperbridge docs",
+      "url": "https://docs.hyperbridge.network/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "Hyperbridge repo",
+      "url": "https://github.com/polytope-labs/hyperbridge",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/hyperbridge-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Ethereum explorer",
+      "url": "https://etherscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/hyperbridge-rekt",
+      "https://docs.hyperbridge.network/",
+      "https://github.com/polytope-labs/hyperbridge"
+    ],
+    "resolutionStrategy": [
+      "Prefer Hyperbridge official docs and repository for protocol topology",
+      "Store exploit and attacker addresses from the Rekt page with medium confidence until cross-checked against explorer labels",
+      "Use the loader to join these incident artifacts with future deployment manifests"
+    ]
+  }
+}

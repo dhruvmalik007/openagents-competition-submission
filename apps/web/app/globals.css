@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  background-image:
+    radial-gradient(circle at top, rgba(34, 211, 238, 0.16), transparent 26%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.12), transparent 20%),
+    linear-gradient(180deg, rgba(2, 6, 23, 1) 0%, rgba(15, 23, 42, 1) 100%);
+}
+
+* {
+  @apply border-border;
+}
+
+.dashboard-shell {
+  @apply mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8;
+}
+
+.glass-panel {
+  @apply border border-white/10 bg-white/5 backdrop-blur-xl;
+}

@@ -1,0 +1,134 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "makina",
+  "protocolName": "Makina Finance",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "makina-2026-01-22",
+    "notes": "Oracle and AUM update manipulation incident inventory for Makina Finance. The public incident trail includes the original attacker, the front-running MEV searcher, exploit contracts, the targeted Curve pool, and recovery wallet activity.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "OriginalAttackerEOA",
+      "address": "0x2F934B0Fd5c4f99BAb37d47604a3a1AEADEF1CCc",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Original attacker address identified by Makina's incident update."
+    },
+    {
+      "name": "MEVSearcherEOA",
+      "address": "0x935bfb495E33f74d2E9735DF1DA66acE442ede48",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "MEV searcher that replicated and front-ran the attack."
+    },
+    {
+      "name": "ExploitContract",
+      "address": "0x454d03b2a1D52F5F7AabA8E352225335a1b724E8",
+      "chain": "Ethereum",
+      "category": "proxy",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Delegated execution contract used during the exploit."
+    },
+    {
+      "name": "DUSDUSDCStableSwapPool",
+      "address": "0x32E616F4f17d43f9A5cd9Be0e294727187064cb3",
+      "chain": "Ethereum",
+      "category": "oracle",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Curve stable swap pool whose live balances fed the manipulable AUM calculation."
+    },
+    {
+      "name": "CaliberContract",
+      "address": "0x06147e073B854521c7B778280E7d7dBAfB2D4898",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Exploited contract exposing the vulnerable accountForPosition path."
+    },
+    {
+      "name": "MEVBuilderAddress",
+      "address": "0xa6c248384C5DDd934B83D0926D2E2A1dDF008387",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Builder address tied to the reordered execution path."
+    },
+    {
+      "name": "MEVRecipient1",
+      "address": "0xbed26250Db2097318386F540fD546acEDf7bdE25",
+      "chain": "Ethereum",
+      "category": "treasury",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Primary MEV recipient wallet holding the majority of extracted ETH."
+    },
+    {
+      "name": "RecoveryWallet",
+      "address": "0x62244C74e1d09b3D86EF7342d354b5D7770bDE10",
+      "chain": "Ethereum",
+      "category": "treasury",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Recovery wallet named in Makina's on-chain bounty messages."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "Makina official site",
+      "url": "https://www.makina.finance/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "Makina GitHub organization",
+      "url": "https://github.com/MakinaHQ/",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/makina-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Ethereum explorer",
+      "url": "https://etherscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/makina-rekt",
+      "https://www.makina.finance/"
+    ],
+    "resolutionStrategy": [
+      "Use Makina official resources for protocol positioning and developer links",
+      "Preserve the split between original attacker and MEV-driven extractors in scenario metadata",
+      "Treat the Curve pool and Caliber contract as the minimum onchain dependency set for simulation"
+    ]
+  }
+}

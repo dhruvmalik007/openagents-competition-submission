@@ -1,0 +1,134 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "foomcash",
+  "protocolName": "FoomCash",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "foomcash-2026-01-15",
+    "notes": "Ethereum and Base lottery protocol inventory assembled from the protocol website and the 2026 Rekt writeup. The incident data identifies bridge, lottery, and verifier contracts plus attacker and whitehat wallets.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "BridgeContract",
+      "address": "0x2f534ce6843e7a773fd9f2e45d04e8608b9de3f8",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Bridge contract cited in the public incident analysis."
+    },
+    {
+      "name": "EthereumLottery",
+      "address": "0x239af915abcd0a5dcb8566e863088423831951f8",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Ethereum lottery contract cited in public reporting."
+    },
+    {
+      "name": "BaseLottery",
+      "address": "0xdb203504ba1fea79164af3ceffba88c59ee8aafd",
+      "chain": "Base",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Base lottery contract cited in public reporting."
+    },
+    {
+      "name": "EthereumVerifier",
+      "address": "0xc043865fb4D542E2bc5ed5Ed9A2F0939965671A6",
+      "chain": "Ethereum",
+      "category": "oracle",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Ethereum verifier contract named in the incident analysis."
+    },
+    {
+      "name": "BaseVerifier",
+      "address": "0x02c30D32A92a3C338bc43b78933D293dED4f68C6",
+      "chain": "Base",
+      "category": "oracle",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Base verifier contract named in the incident analysis."
+    },
+    {
+      "name": "AttackerOrWhitehat1",
+      "address": "0x46c403e3DcAF219D9D4De167cCc4e0dd8E81Eb72",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Wallet referenced in the public incident discussion."
+    },
+    {
+      "name": "AttackerOrWhitehat2",
+      "address": "0x73f55A95D6959D95B3f3f11dDd268ec502dAB1Ea",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Wallet referenced in the public incident discussion."
+    },
+    {
+      "name": "AttackerOrWhitehat3",
+      "address": "0xa30841846259c02eb540059100b57d87c2384358",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Wallet referenced in the public incident discussion."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "FoomCash official site",
+      "url": "https://foom.cash/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "foom.cash audited commit reference",
+      "url": "https://github.com/Terrestrial-Church/foom-lottery/commit/af46a08/",
+      "source": "github",
+      "confidence": "medium"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/the-unfinished-proof",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Ethereum explorer",
+      "url": "https://etherscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/the-unfinished-proof",
+      "https://foom.cash/"
+    ],
+    "resolutionStrategy": [
+      "Use the protocol site for system description and the Rekt article for contract and actor identifiers",
+      "Keep attacker-versus-whitehat role attribution conservative because the public excerpt mixed both wallet classes",
+      "Extend with verified deployment metadata if the protocol repo is recovered in later research"
+    ]
+  }
+}

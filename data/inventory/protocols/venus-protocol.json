@@ -1,0 +1,214 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "venus-protocol",
+  "protocolName": "Venus Protocol",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "venus-protocol-2026-03-18",
+    "notes": "BNB Chain-oriented inventory assembled from official Venus deployed-contract docs, technical references, GitHub repositories, and the 2026 Rekt incident page for supply-cap manipulation involving the THE market.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "PoolRegistry",
+      "address": "0x9F7b01A536aFA00EF10310A162877fd792cD0666",
+      "chain": "BNB Chain",
+      "category": "core",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Official deployed-contracts/markets.md reference for BNB Chain Mainnet."
+    },
+    {
+      "name": "CorePoolComptroller",
+      "address": "0xfD36E2c2a6789Db23113685031d7F16329158384",
+      "chain": "BNB Chain",
+      "category": "core",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Official Venus Core Pool comptroller address."
+    },
+    {
+      "name": "VenusLens",
+      "address": "0xf15A9c5aaDc327B383945D5821C7aC08Cdac7430",
+      "chain": "BNB Chain",
+      "category": "core",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Official Venus Lens address from deployed contracts docs."
+    },
+    {
+      "name": "THEUnderlyingToken",
+      "address": "0xF4C8E32EaDEC4BFe97E0F595AdD0f4450a863a11",
+      "chain": "BNB Chain",
+      "category": "token",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "THE underlying token listed under Core Pool underlying tokens."
+    },
+    {
+      "name": "vTHE",
+      "address": "0x08C8CAA1c44A00044566A2672C748c2Ed4c6d5E5",
+      "chain": "BNB Chain",
+      "category": "core",
+      "source": "manual",
+      "verified": false,
+      "confidence": "low",
+      "notes": "Market-specific vTHE address should be confirmed from official deployed-contract pages or explorer before production use."
+    },
+    {
+      "name": "ResilientOracle",
+      "address": "0x5D74265419E9eeA6c12d0A6D29C8D1b4b4F9D8D0",
+      "chain": "BNB Chain",
+      "category": "oracle",
+      "source": "manual",
+      "verified": false,
+      "confidence": "low",
+      "notes": "Technical reference identifies the contract role, but exact deployed address should be extracted from official oracle deployment pages before promotion."
+    },
+    {
+      "name": "BinanceOracle",
+      "address": "0x594810b741d136f1960141C0d8Fb4a91bE78A820",
+      "chain": "BNB Chain",
+      "category": "oracle",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Official Oracle deployment page."
+    },
+    {
+      "name": "BoundValidator",
+      "address": "0x6E332fF0bB52475304494E4AE5063c1051c7d735",
+      "chain": "BNB Chain",
+      "category": "oracle",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Official Oracle deployment page; relevant because the incident mentions BoundValidator behavior."
+    },
+    {
+      "name": "ChainlinkOracle",
+      "address": "0x1B2103441A0A108daD8848D8F5d790e4D402921F",
+      "chain": "BNB Chain",
+      "category": "oracle",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Official Oracle deployment page."
+    },
+    {
+      "name": "VenusTreasury",
+      "address": "0xf322942f644a996a617bd29c16bd7d231d9f35e9",
+      "chain": "BNB Chain",
+      "category": "treasury",
+      "source": "github",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Official funds deployment page."
+    },
+    {
+      "name": "AttackerEOA1",
+      "address": "0x1a35bd28efd46cfc46c2136f878777d69ae16231",
+      "chain": "BNB Chain",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attacker address named on the 2026 Rekt incident page."
+    },
+    {
+      "name": "AttackerEOA2",
+      "address": "0x43c743e316f40d4511762eedf6f6d484f67b2f82",
+      "chain": "BNB Chain",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Second attacker address cited in public writeups aggregated by Rekt."
+    },
+    {
+      "name": "AttackContract",
+      "address": "0x737bc98f1d34e19539c074b8ad1169d5d45da619",
+      "chain": "BNB Chain",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attack contract named in the Rekt incident article."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "docs",
+      "label": "Venus Technical Reference",
+      "url": "https://docs-v4.venus.io/technical-reference/contracts-overview",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "Venus Deployed Contracts Docs",
+      "url": "https://github.com/VenusProtocol/venus-protocol-documentation/tree/main/deployed-contracts",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "venus-protocol core repo",
+      "url": "https://github.com/VenusProtocol/venus-protocol",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "isolated-pools repo",
+      "url": "https://github.com/VenusProtocol/isolated-pools",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "oracle repo",
+      "url": "https://github.com/VenusProtocol/oracle",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "governance-contracts repo",
+      "url": "https://github.com/VenusProtocol/governance-contracts",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt Incident",
+      "url": "https://rekt.news/venus-protocol-rekt4/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "BNB Chain Explorer",
+      "url": "https://bscscan.com/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/venus-protocol-rekt4/",
+      "https://docs-v4.venus.io/technical-reference/contracts-overview",
+      "https://github.com/VenusProtocol/venus-protocol",
+      "https://github.com/VenusProtocol/venus-protocol-documentation/tree/main/deployed-contracts"
+    ],
+    "resolutionStrategy": [
+      "Use official deployed-contracts docs and GitHub documentation as the preferred source of truth for Venus deployment addresses",
+      "Bind incident-specific attacker addresses and transactions from the Rekt writeup to scenario metadata rather than treating them as protocol-owned contracts",
+      "Downgrade confidence when a role is known from technical docs but the deployed address still needs confirmation"
+    ]
+  }
+}

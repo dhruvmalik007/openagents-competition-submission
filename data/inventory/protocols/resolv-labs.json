@@ -1,0 +1,104 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "resolv-labs",
+  "protocolName": "Resolv Labs",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "resolv-labs-2026-04-07",
+    "notes": "Inventory for the Resolv stable-return system. The incident metadata centers on a compromised SERVICE_ROLE key and subsequent consolidation into attacker-controlled wallets.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "CompromisedServiceRoleEOA",
+      "address": "0x15CAd41e6BdCaDc7121ce65080489C92CF6de398",
+      "chain": "Ethereum",
+      "category": "governance",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "SERVICE_ROLE key identified in the public incident analysis."
+    },
+    {
+      "name": "AttackerEOA1",
+      "address": "0x04A288a7789DD6Ade935361a4fB1Ec5db513caEd",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attacker wallet named in the Rekt writeup."
+    },
+    {
+      "name": "AttackerEOA2",
+      "address": "0xb945ec1be1f42777f3aa7d683562800b4cdd3890",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attacker wallet named in the Rekt writeup."
+    },
+    {
+      "name": "AttackerEOA3",
+      "address": "0x9feeeaec113e6d2dcd5ac997d5358eee41836e5f",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attacker wallet named in the Rekt writeup."
+    },
+    {
+      "name": "PrimaryConsolidationWallet",
+      "address": "0x8ED8cF0C1c531C1b20848E78f1CB32fa5B99b81C",
+      "chain": "Ethereum",
+      "category": "treasury",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Primary consolidation address surfaced in public incident reporting."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "docs",
+      "label": "Resolv docs",
+      "url": "https://docs.resolv.xyz/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "frontend",
+      "label": "Resolv app",
+      "url": "https://resolv.xyz/",
+      "source": "manual",
+      "confidence": "medium"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/resolv-labs-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Ethereum explorer",
+      "url": "https://etherscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/resolv-labs-rekt",
+      "https://docs.resolv.xyz/"
+    ],
+    "resolutionStrategy": [
+      "Prefer Resolv documentation for product structure and terminology",
+      "Map the compromised role key and consolidation wallets from the incident page into scenario metadata",
+      "Promote exact deployed contracts later from Resolv docs or verified explorers"
+    ]
+  }
+}

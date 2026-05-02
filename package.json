@@ -1,0 +1,30 @@
+{
+  "name": "openagents-autoresearch",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "keccak",
+      "node-hid",
+      "usb"
+    ]
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "turbo run build lint test && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^22.15.3",
+    "tsx": "^4.19.3",
+    "turbo": "^2.0.12",
+    "typescript": "^5.8.3"
+  }
+}

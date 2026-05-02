@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "saga",
+  "protocolName": "Saga",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "saga-2026-01-26",
+    "notes": "SagaEVM incident metadata tied to IBC payload validation failure. The public record includes the helper contract that forged deposit-like messages and the Ethereum-side attacker address that received bridged assets.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "IBCMessageHelperContract",
+      "address": "0x7D69E4376535cf8c1E367418919209f70358581E",
+      "chain": "SagaEVM",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Helper contract used to craft custom IBC payloads that bypassed validation."
+    },
+    {
+      "name": "AttackerEOA",
+      "address": "0x2044697623afa31459642708c83f04ecef8c6ecb",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Ethereum-side attacker wallet identified in the Rekt and allied public analysis."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "docs",
+      "label": "Saga docs",
+      "url": "https://docs.saga.xyz/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "Saga investigation update",
+      "url": "https://medium.com/sagaxyz/sagaevm-security-incident-investigation-update-29a1d2a6b0cd",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/saga-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Saga explorer",
+      "url": "https://sagaevm.sagaexplorer.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/saga-rekt",
+      "https://docs.saga.xyz/",
+      "https://medium.com/sagaxyz/sagaevm-security-incident-investigation-update-29a1d2a6b0cd"
+    ],
+    "resolutionStrategy": [
+      "Use Saga docs and the official investigation update for protocol context",
+      "Bind attacker and helper contract addresses from public incident analysis into replay manifests",
+      "Extend with Ethermint and IBC precompile implementation details in later scenario packs"
+    ]
+  }
+}

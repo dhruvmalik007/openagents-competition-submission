@@ -1,0 +1,64 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "iotex",
+  "protocolName": "IoTeX",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "iotex-2026-02-10",
+    "notes": "Operational compromise incident metadata for the IoTeX ecosystem. The public incident narrative emphasizes a private-key compromise and identifies the primary exploit address, while detailed affected contract addresses were not surfaced in the excerpted public material.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "PrimaryExploitAddress",
+      "address": "0x6487b5006904f3db3c4a3654409ae92b87ed442f",
+      "chain": "IoTeX EVM",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Primary exploit address flagged by the team and public incident analysts."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "docs",
+      "label": "IoTeX docs",
+      "url": "https://docs.iotex.io/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "frontend",
+      "label": "IoTeX official site",
+      "url": "https://iotex.io/",
+      "source": "manual",
+      "confidence": "medium"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/iotex-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "IoTeX explorer",
+      "url": "https://iotexscan.io/",
+      "source": "explorer",
+      "confidence": "medium"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/iotex-rekt",
+      "https://docs.iotex.io/"
+    ],
+    "resolutionStrategy": [
+      "Use IoTeX docs for protocol context and the Rekt page for the incident anchor address",
+      "Mark contract coverage as incomplete until TokenSafe and related addresses are confirmed from primary postmortems or explorers",
+      "Keep confidence medium because the excerpted public evidence focused more on operations than contract inventory"
+    ]
+  }
+}

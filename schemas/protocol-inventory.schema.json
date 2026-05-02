@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aegis-arena.dev/schemas/protocol-inventory.schema.json",
+  "title": "Protocol Inventory",
+  "type": "object",
+  "required": [
+    "protocolSlug",
+    "protocolName",
+    "generatedAt",
+    "summary",
+    "contractAddresses",
+    "offchainResources",
+    "provenance"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "protocolSlug": { "type": "string" },
+    "protocolName": { "type": "string" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "summary": {
+      "type": "object",
+      "required": ["incidentReference", "notes", "confidence"],
+      "properties": {
+        "incidentReference": { "type": "string" },
+        "notes": { "type": "string" },
+        "confidence": { "enum": ["low", "medium", "high"] }
+      },
+      "additionalProperties": false
+    },
+    "contractAddresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "address", "chain", "category", "source", "verified", "confidence"],
+        "properties": {
+          "name": { "type": "string" },
+          "address": { "type": "string" },
+          "chain": { "type": "string" },
+          "category": { "enum": ["core", "proxy", "oracle", "governance", "token", "treasury", "unknown"] },
+          "source": { "enum": ["defillama", "github", "docs", "explorer", "manual"] },
+          "verified": { "type": "boolean" },
+          "confidence": { "enum": ["low", "medium", "high"] },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "offchainResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "label", "url", "source", "confidence"],
+        "properties": {
+          "type": { "enum": ["github", "docs", "explorer", "security-report", "frontend", "api"] },
+          "label": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "source": { "enum": ["defillama", "github", "docs", "explorer", "manual"] },
+          "confidence": { "enum": ["low", "medium", "high"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["sources", "resolutionStrategy"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        },
+        "resolutionStrategy": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

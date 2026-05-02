@@ -1,0 +1,104 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "truebit",
+  "protocolName": "Truebit",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "truebit-2026-01-12",
+    "notes": "Ethereum-side mint-burn exploit inventory assembled from the 2026 Rekt incident page and Truebit official resources. The public record includes the vulnerable purchase contract, attack contract, primary exploiter, laundering wallet, and a secondary copycat attacker.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "PurchaseContract",
+      "address": "0x764C64b2A09b09Acb100B80d8c505Aa6a0302EF2",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Affected purchase contract acknowledged by Truebit."
+    },
+    {
+      "name": "PrimaryAttackerEOA",
+      "address": "0x6c8ec8f14be7c01672d31cfa5f2cefeab2562b50",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Primary exploiter wallet traced in the Rekt article."
+    },
+    {
+      "name": "AttackContract",
+      "address": "0x1de399967b206e446b4e9aeeb3cb0a0991bf11b8",
+      "chain": "Ethereum",
+      "category": "proxy",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Malicious contract deployed and executed in the same block as the exploit."
+    },
+    {
+      "name": "TornadoCashLaunderingWallet",
+      "address": "0xD841C52B68c5dB133078ABa039bd9EAF19b0b135",
+      "chain": "Ethereum",
+      "category": "treasury",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Wallet used to route the stolen ETH toward Tornado Cash."
+    },
+    {
+      "name": "SecondAttackerWallet",
+      "address": "0xc0454E545a7A715c6D3627f77bEd376a05182FBc",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Copycat attacker wallet that extracted smaller follow-on profits."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "Truebit official site",
+      "url": "https://www.truebit.io/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "Truebit platform docs",
+      "url": "http://devs.truebit.io",
+      "source": "docs",
+      "confidence": "medium"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/truebit-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Ethereum explorer",
+      "url": "https://etherscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/truebit-rekt",
+      "https://www.truebit.io/"
+    ],
+    "resolutionStrategy": [
+      "Use Truebit official resources for project identity and product context",
+      "Treat the exploit contract and attacker wallets from the incident page as high-confidence replay anchors",
+      "Expand with token and governance deployment addresses later if they are recovered from verified historical repos or explorer labels"
+    ]
+  }
+}

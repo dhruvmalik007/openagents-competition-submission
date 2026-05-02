@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "<slug>",
+  "protocolName": "<display name>",
+  "generatedAt": "<iso timestamp>",
+  "summary": {
+    "incidentReference": "<incident id>",
+    "notes": "<freeform notes>",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "<contract name>",
+      "address": "0x...",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "explorer",
+      "verified": true,
+      "confidence": "high",
+      "notes": "<why this address is included>"
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "docs",
+      "label": "Docs",
+      "url": "https://docs.example.com",
+      "source": "docs",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": ["https://..."],
+    "resolutionStrategy": ["..." ]
+  }
+}

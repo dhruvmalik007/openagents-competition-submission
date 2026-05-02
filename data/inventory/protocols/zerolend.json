@@ -1,0 +1,94 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "zerolend",
+  "protocolName": "ZeroLend",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "zerolend-2026-01-20",
+    "notes": "Base-focused lending market incident inventory. Public reporting ties the exploit to PT-LBTC collateral abuse and includes the recurring attacker wallet plus a later Gnosis Safe siphon address tied to residual liquidity extraction.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "AttackerAddressBase",
+      "address": "0x218C572b1Ab6065D74bEbcB708a3f523D14F7719",
+      "chain": "Base",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Primary attacker wallet on Base named throughout the Rekt article."
+    },
+    {
+      "name": "AttackerAddressArbitrum",
+      "address": "0x218C572b1Ab6065D74bEbcB708a3f523D14F7719",
+      "chain": "Arbitrum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Same attacker wallet tracked on Arbitrum."
+    },
+    {
+      "name": "AttackerAddressEthereum",
+      "address": "0x218C572b1Ab6065D74bEbcB708a3f523D14F7719",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Same attacker wallet tracked on Ethereum."
+    },
+    {
+      "name": "ResidualLiquiditySafe",
+      "address": "0x0f2876396a71fe09a175d97f83744377be9b6363",
+      "chain": "Base",
+      "category": "treasury",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Gnosis Safe wallet that continued draining small amounts of Base LBTC liquidity post-incident."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "ZeroLend official site",
+      "url": "https://zerolend.xyz/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "ZeroLend audits and security docs",
+      "url": "https://docs.zerolend.xyz/security/audits",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/zero-to-lend",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Base explorer",
+      "url": "https://basescan.org/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/zero-to-lend",
+      "https://zerolend.xyz/"
+    ],
+    "resolutionStrategy": [
+      "Prefer ZeroLend official docs for protocol context and the Rekt page for incident artifacts",
+      "Model the repeated multi-chain attacker wallet as a shared actor identity across Base, Arbitrum, and Ethereum",
+      "Add PT-LBTC market contract addresses later from ZeroLend deployment manifests"
+    ]
+  }
+}

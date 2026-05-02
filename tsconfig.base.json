@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@aegis-arena/config": ["packages/config/src/index.ts"],
+      "@aegis-arena/contracts": ["packages/contracts/src/index.ts"],
+      "@aegis-arena/core": ["packages/core/src/index.ts"],
+      "@aegis-arena/etl": ["packages/etl/src/index.ts"],
+      "@aegis-arena/og": ["packages/og/src/index.ts"]
+    }
+  }
+}

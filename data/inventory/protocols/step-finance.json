@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "step-finance",
+  "protocolName": "Step Finance",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "step-finance-2026-02-04",
+    "notes": "Solana treasury compromise inventory. Public reporting attributes the loss to a compromised executive device and tracks the unstaking and treasury-drain path through specific Solana accounts and transactions.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "StakeAuthorizationRecipient",
+      "address": "LEP1uHXcWbFEPwQgkeFzdhW2ykgZY6e9Dz8Yro6SdNu",
+      "chain": "Solana",
+      "category": "governance",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Fresh wallet that received stake authorization according to incident analysis."
+    },
+    {
+      "name": "PrimaryLootWallet",
+      "address": "7raxiejD8hDUH1wyYWFDPrEuHiLUjJ4RiZi2z1u2udNh",
+      "chain": "Solana",
+      "category": "treasury",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Wallet where stolen SOL was reported to remain visible after the incident."
+    },
+    {
+      "name": "UnstakingTransaction",
+      "address": "5EeXqPQci3ZnbFGWPJf622cLqLGnMuNcAr1rDGCizKRFt9owawCzovNpBC4xNh7A4a5p7Qkvsg8nPaYmw3MiYCvF",
+      "chain": "Solana",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Transaction hash for the unstaking step referenced by CertiK and Rekt."
+    },
+    {
+      "name": "MainWithdrawalTransaction",
+      "address": "4Ly35PsVTBNPVibpDRww6FC43pU5Tuw6UtaKECzcLKXtWTPyyvw1dw8LoNRLBDMgQUP81nN69mhiAEDJvzL8X317",
+      "chain": "Solana",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Transaction hash for the primary 261,932 SOL withdrawal."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "Step official site",
+      "url": "https://step.finance/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "Piotr Rzonsowski postmortem",
+      "url": "https://rzonsol.pl/blog/2026-02-02-step-finance-hack-postmortem",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/step-finance-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Solana explorer",
+      "url": "https://solscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/step-finance-rekt",
+      "https://step.finance/",
+      "https://rzonsol.pl/blog/2026-02-02-step-finance-hack-postmortem"
+    ],
+    "resolutionStrategy": [
+      "Use Step official resources for protocol identity only because the incident was primarily operational rather than contract-driven",
+      "Store Solana account and transaction identifiers from the incident writeup as scenario replay anchors",
+      "Promote treasury and multisig account metadata later from official Step infrastructure docs"
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "yo-protocol",
+  "protocolName": "YO Protocol",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "yo-protocol-2026-01-14",
+    "notes": "Operational incident inventory for YO Protocol's automated harvest swap failure. The public incident materials emphasize broken execution parameters rather than an external attacker; no definitive protocol contract address was surfaced in the excerpts collected during this research pass.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "YO official site",
+      "url": "https://yo.xyz/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "YO incident postmortem",
+      "url": "https://www.yo.xyz/blog/post/youusd-incident-postmortem-automated-harvest-swap-jan-12-2026",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/yo-protocols-slippage-bomb",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "api",
+      "label": "YO SDK reference",
+      "url": "https://yo.xyz/",
+      "source": "docs",
+      "confidence": "medium"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/yo-protocols-slippage-bomb",
+      "https://yo.xyz/"
+    ],
+    "resolutionStrategy": [
+      "Model this incident as an operational and routing failure rather than an attacker-driven exploit",
+      "Use the YO postmortem and SDK docs for protocol context while deferring onchain contract enumeration until a fuller deployment source is available",
+      "Allow empty contract coverage for now because the public source set was specific about the failure mode but not the exact contract inventory"
+    ]
+  }
+}

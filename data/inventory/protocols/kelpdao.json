@@ -1,0 +1,94 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "kelpdao",
+  "protocolName": "KelpDAO",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "kelpdao-2026-04-16",
+    "notes": "Ethereum-side incident metadata for the KelpDAO / rsETH stack. Public incident analysis points to a LayerZero verifier or RPC compromise path and names the adapter plus multiple attacker EOAs.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "EthereumAdapter",
+      "address": "0x85d456b2dff1fd8245387c0bfb64dfb700e98ef3",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Adapter contract identified in the public incident narrative."
+    },
+    {
+      "name": "AttackerEOA1",
+      "address": "0x8B1b6c9A6DB1304000412dd21Ae6A70a82d60D3b",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attacker wallet listed in the Rekt writeup."
+    },
+    {
+      "name": "AttackerEOA2",
+      "address": "0x5d3919F12bCc35c26Eee5F8226A9bee90c257Ccc",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attacker wallet listed in the Rekt writeup."
+    },
+    {
+      "name": "AttackerEOA3",
+      "address": "0xCBb24A6B4DAfaAA1a759A2F413eA0eB6AE1455CC",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Attacker wallet listed in the Rekt writeup."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "Kelp official site",
+      "url": "https://kelpdao.xyz/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "Kernel docs",
+      "url": "https://kerneldao.gitbook.io/kernel",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "Kernel litepaper",
+      "url": "https://kerneldao.gitbook.io/litepaper",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/kelpdao-rekt",
+      "source": "docs",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/kelpdao-rekt",
+      "https://kelpdao.xyz/"
+    ],
+    "resolutionStrategy": [
+      "Use Kelp and Kernel docs as primary protocol references",
+      "Keep incident-linked EOAs as attack metadata with medium confidence until independently confirmed on explorers",
+      "Attach deeper contract inventories later from protocol deployment docs or repos"
+    ]
+  }
+}

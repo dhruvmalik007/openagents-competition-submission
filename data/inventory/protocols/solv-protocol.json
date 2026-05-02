@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "solv-protocol",
+  "protocolName": "Solv Protocol",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "solv-protocol-2026-03-12",
+    "notes": "Bitcoin reserve and bonding-stack incident inventory. The public incident material explicitly names the Bitcoin Reserve Offering contract but does not surface a definitive attacker wallet in the excerpt collected during research.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "BitcoinReserveOffering",
+      "address": "0x014e6F6ba7a9f4C9a51a0Aa3189B5c0a21006869",
+      "chain": "Ethereum",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Contract explicitly named in the incident narrative."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "Solv official site",
+      "url": "https://solv.finance/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "Solv docs",
+      "url": "https://docs.solv.finance/solv-documentation/solv-token/tokenomics",
+      "source": "docs",
+      "confidence": "medium"
+    },
+    {
+      "type": "github",
+      "label": "Solv GitHub organization",
+      "url": "https://github.com/solv-finance",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/solv-rekt",
+      "source": "docs",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/solv-rekt",
+      "https://solv.finance/",
+      "https://github.com/solv-finance"
+    ],
+    "resolutionStrategy": [
+      "Use Solv official site and GitHub org for protocol identity and docs discovery",
+      "Keep the BRO contract as the primary onchain anchor until a fuller deployment list is confirmed",
+      "Mark attacker-side coverage incomplete because the incident excerpt did not expose a definitive attacker wallet"
+    ]
+  }
+}

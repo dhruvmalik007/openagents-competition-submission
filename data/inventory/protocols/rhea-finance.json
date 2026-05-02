@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "rhea-finance",
+  "protocolName": "Rhea Finance",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "rhea-finance-2026-04-21",
+    "notes": "NEAR DeFi hub inventory enriched from the Rhea official site and public exploit reporting. Public material collected in this pass confirmed protocol identity and official documentation, but did not expose a definitive attacker account in the same quality as the EVM incidents.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "RHEATokenAccount",
+      "address": "token.rhealab.near",
+      "chain": "NEAR",
+      "category": "token",
+      "source": "explorer",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Token account identifier surfaced by public RHEA explorer references." 
+    },
+    {
+      "name": "RheaProtocolAccount",
+      "address": "rhealab.near",
+      "chain": "NEAR",
+      "category": "core",
+      "source": "manual",
+      "verified": false,
+      "confidence": "low",
+      "notes": "Likely protocol account namespace based on public project references; confirm on NEAR explorer before using in automation."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "security-report",
+      "label": "Rekt incident page",
+      "url": "https://rekt.news/rhea-finance-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "frontend",
+      "label": "Rhea official site",
+      "url": "https://www.rhea.finance/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "Rhea white paper",
+      "url": "https://guide.rhea.finance/rhea-finance-white-paper",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "NEAR explorer",
+      "url": "https://nearblocks.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/rhea-finance-rekt",
+      "https://www.rhea.finance/",
+      "https://guide.rhea.finance/rhea-finance-white-paper"
+    ],
+    "resolutionStrategy": [
+      "Use the official Rhea site and white paper for protocol identity and product scope",
+      "Retain NEAR account identifiers conservatively until they are confirmed against NEAR explorer records",
+      "Add exploit-path accounts later when a primary postmortem or explorer thread exposes them with sufficient confidence"
+    ]
+  }
+}

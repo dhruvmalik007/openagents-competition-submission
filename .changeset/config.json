@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": true,
+  "commitMessage": "chore: version packages (changesets)",
+  "fixed": [],
+  "linked": [],
+  "access": "restricted",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": ["openagents-autoresearch"],
+  "privatePackages": {
+    "version": false,
+    "tag": false
+  }
+}
+

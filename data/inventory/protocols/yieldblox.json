@@ -1,0 +1,104 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "yieldblox",
+  "protocolName": "YieldBlox",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "yieldblox-2026-02-11",
+    "notes": "Blend and Stellar-oriented incident inventory. Public reporting identifies the community-managed pool contract, multiple EVM-side exploit addresses, and a gas-supplying address connected to the attack flow.",
+    "confidence": "high"
+  },
+  "contractAddresses": [
+    {
+      "name": "CommunityManagedPool",
+      "address": "CCCCIQSDILITHMM7PBSLVDT5MISSY7R26MNZXCX4H7J5JQ5FPIYOGYFS",
+      "chain": "Stellar",
+      "category": "core",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Pool contract identifier named in the Rekt writeup."
+    },
+    {
+      "name": "PrimaryExploiterEOA",
+      "address": "0xE69f6d77DB6Ff493FDD15D8A0B390c36E18E5b21",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Primary EVM-side exploiter wallet surfaced in public reporting."
+    },
+    {
+      "name": "SecondaryExploiterEOA",
+      "address": "0x2D1CE29b4aF15fb6E76Ba9995BbE1421E8546482",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Additional wallet involved in the exploit path."
+    },
+    {
+      "name": "ForwardingAddress",
+      "address": "0xFC51b5cD07E73020bE902A5b00902f329b083eaB",
+      "chain": "Ethereum",
+      "category": "treasury",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Forwarding wallet referenced in incident analysis."
+    },
+    {
+      "name": "GasSupplierAddress",
+      "address": "0xd7e42d9502fbd66d90750e544e05c2b3ca7cbd22",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Gas-supplying address linked to the phishing and exploit flow."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "YieldBlox official site",
+      "url": "https://yieldblox.com/",
+      "source": "docs",
+      "confidence": "medium"
+    },
+    {
+      "type": "github",
+      "label": "YieldBlox docs repo",
+      "url": "https://github.com/script3/yieldblox-docs",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "YieldBlox GitHub org",
+      "url": "https://github.com/yieldblox",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/yieldblox-rekt",
+      "source": "docs",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/yieldblox-rekt",
+      "https://github.com/script3/yieldblox-docs"
+    ],
+    "resolutionStrategy": [
+      "Use YieldBlox docs repositories for protocol context and the Rekt page for incident artifacts",
+      "Preserve the Stellar pool identifier exactly as reported because it is the key scenario anchor",
+      "Add Blend-specific deployment metadata later from Stellar explorer and protocol docs"
+    ]
+  }
+}

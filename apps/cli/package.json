@@ -1,0 +1,49 @@
+{
+  "name": "@aegis-arena/cli",
+  "version": "0.1.0",
+  "description": "CLI for wallet onboarding, 0G Galileo testing, simulation runs, and web session sync",
+  "private": false,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aegis-arena/openagents_autoresearch.git",
+    "directory": "apps/cli"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "bin": {
+    "aegis": "./dist/apps/cli/src/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "prebuild": "pnpm -r --filter @aegis-arena/config --filter @aegis-arena/contracts --filter @aegis-arena/core --filter @aegis-arena/etl --filter @aegis-arena/og --filter @aegis-arena/rl-policy build",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "lint": "node -e \"console.log('lint placeholder: @aegis-arena/cli')\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test ./test/**/*.test.mjs",
+    "clean": "rm -rf dist",
+    "pack:local": "pnpm build && pnpm pack --pack-destination ../../.local-packages",
+    "link:global": "pnpm build && pnpm link --global",
+    "unlink:global": "pnpm unlink --global"
+  },
+  "dependencies": {
+    "@ledgerhq/hw-app-eth": "^6.44.4",
+    "@ledgerhq/hw-transport-node-hid": "^6.29.6",
+    "@aegis-arena/config": "workspace:*",
+    "@aegis-arena/contracts": "workspace:*",
+    "@aegis-arena/core": "workspace:*",
+    "@aegis-arena/etl": "workspace:*",
+    "@aegis-arena/og": "workspace:*",
+    "@aegis-arena/rl-policy": "workspace:*",
+    "commander": "^13.1.0",
+    "viem": "^2.30.6"
+  }
+}

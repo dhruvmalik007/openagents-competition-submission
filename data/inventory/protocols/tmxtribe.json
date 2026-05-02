@@ -1,0 +1,77 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "tmxtribe",
+  "protocolName": "TMXTribe",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "tmxtribe-2026-01-08",
+    "notes": "Arbitrum GMX-fork incident inventory built from the 2026 Rekt page and the TMX frontend. Public reporting identifies two exploiter wallets and the team wallet that later sent an onchain bounty message while the exploit was still unfolding.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "PrimaryExploiterEOA",
+      "address": "0x763a67E4418278f84c04383071fC00165C112661",
+      "chain": "Arbitrum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "high",
+      "notes": "Main exploiter address labeled on Arbiscan."
+    },
+    {
+      "name": "SecondaryExploiterEOA",
+      "address": "0x16Ed3AFf3255FDDB44dAa73B4dE06f0c2E15288d",
+      "chain": "Arbitrum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Secondary wallet that ran the same exploit loop in parallel."
+    },
+    {
+      "name": "TeamWallet",
+      "address": "0x33392e39325013e81874ca7b76326858ec179543",
+      "chain": "Arbitrum",
+      "category": "governance",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Team-controlled wallet that sent the bounty message and continued deploying upgrades."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "TMX official site",
+      "url": "https://tribe-dex.com/",
+      "source": "docs",
+      "confidence": "medium"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/tmztribe-rekt",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "explorer",
+      "label": "Arbitrum explorer",
+      "url": "https://arbiscan.io/",
+      "source": "explorer",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/tmztribe-rekt",
+      "https://tribe-dex.com/"
+    ],
+    "resolutionStrategy": [
+      "Use the TMX frontend only for protocol identification because the public incident record is stronger than the app metadata",
+      "Treat exploiter and team wallets from the Rekt page as the minimum incident graph",
+      "Expand with verified contract addresses once the GMX-fork deployment set is identified on Arbitrum"
+    ]
+  }
+}

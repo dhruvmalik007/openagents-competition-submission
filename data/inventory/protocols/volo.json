@@ -1,0 +1,94 @@
+{
+  "$schema": "../../../schemas/protocol-inventory.schema.json",
+  "protocolSlug": "volo",
+  "protocolName": "Volo",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "summary": {
+    "incidentReference": "volo-2026-04-21",
+    "notes": "Sui-focused liquid staking protocol inventory assembled from the 2026 Rekt incident page and Volo official resources. The incident narrative indicates a compromised admin path affecting multiple Sui vaults and an Ethereum exit wallet.",
+    "confidence": "medium"
+  },
+  "contractAddresses": [
+    {
+      "name": "SuiAttackerAddress",
+      "address": "0xd763599972ea5a8cfe53d182371ee010dc52ace7e39ccff7d8803ba7100fa46a",
+      "chain": "Sui",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Primary attacker address surfaced in the Rekt writeup."
+    },
+    {
+      "name": "AttackTransaction1",
+      "address": "7pTrudZb57z2acJFvC2CnBCuaU6RA1UpU9auDZQEESit",
+      "chain": "Sui",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Exploit transaction hash referenced in the Rekt article."
+    },
+    {
+      "name": "AttackTransaction2",
+      "address": "AQw9wMFfxSpDoF6YAfDhPLvKbdGSkxbGkc1DnZb43RUS",
+      "chain": "Sui",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Second exploit transaction hash referenced in the Rekt article."
+    },
+    {
+      "name": "EthereumExitWallet",
+      "address": "0x0FF50710e37C0Fb6AA9B4EeeCcAa1437562Af1ca",
+      "chain": "Ethereum",
+      "category": "unknown",
+      "source": "docs",
+      "verified": true,
+      "confidence": "medium",
+      "notes": "Ethereum wallet used to receive bridged proceeds according to public incident analysis."
+    }
+  ],
+  "offchainResources": [
+    {
+      "type": "frontend",
+      "label": "Volo official site",
+      "url": "https://www.volo.fi/",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "docs",
+      "label": "Volo GitBook",
+      "url": "https://volosui.gitbook.io/volo",
+      "source": "docs",
+      "confidence": "high"
+    },
+    {
+      "type": "github",
+      "label": "Volo liquid staking contracts",
+      "url": "https://github.com/Sui-Volo/volo-liquid-staking-contracts",
+      "source": "github",
+      "confidence": "high"
+    },
+    {
+      "type": "security-report",
+      "label": "2026 Rekt incident",
+      "url": "https://rekt.news/volo-rekt",
+      "source": "docs",
+      "confidence": "high"
+    }
+  ],
+  "provenance": {
+    "sources": [
+      "https://rekt.news/volo-rekt",
+      "https://www.volo.fi/"
+    ],
+    "resolutionStrategy": [
+      "Use Volo official site and GitBook for protocol identity and developer resources",
+      "Treat attacker wallets and transaction hashes from the incident page as scenario metadata rather than protocol-owned contracts",
+      "Promote Sui package and vault addresses later when they are confirmed from onchain explorers or the contracts repository"
+    ]
+  }
+}
