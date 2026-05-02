@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { env } from './env';
 
@@ -7,7 +8,11 @@ export function getRepoRoot(): string {
 }
 
 export function getDataRoot(): string {
-  const root = env.dataRoot ? resolve(env.dataRoot) : join(getRepoRoot(), 'runs', 'web-data');
+  const root = env.dataRoot
+    ? resolve(env.dataRoot)
+    : process.env.VERCEL
+      ? join(tmpdir(), 'aegis-arena', 'web-data')
+      : join(getRepoRoot(), 'runs', 'web-data');
   if (!existsSync(root)) {
     mkdirSync(root, { recursive: true });
   }

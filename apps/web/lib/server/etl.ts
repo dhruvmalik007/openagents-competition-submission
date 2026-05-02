@@ -5,7 +5,7 @@ import type { EtlJobRecord, EtlDatasetName } from '../types';
 import { loadLatestPublishedCliSession } from './auth';
 import { env } from './env';
 import { listEpochLogs, listInventories, listSimulationRuns } from './local-repository';
-import { getEtlDatasetsDir, getEtlJobsDir, getRunsDir } from './paths';
+import { getEtlJobsDir } from './paths';
 import { listArtifacts, readArtifact, writeArtifact } from './storage';
 import { build0GModuleChecks, fetchRekt2026Incidents, fetchSoloditFindings } from './threat-intel';
 
@@ -101,7 +101,8 @@ export async function runEtl(source: EtlJobRecord['source']): Promise<EtlJobReco
       }))
     );
     const session = await loadLatestPublishedCliSession();
-    const [rektIncidents, soloditFindings] = await Promise.all([fetchRekt2026Incidents(), fetchSoloditFindings()]);
+    const rektIncidents = await fetchRekt2026Incidents().catch(async () => readDatasetRecords('rekt-incidents'));
+    const soloditFindings = await fetchSoloditFindings().catch(async () => readDatasetRecords('solodit-findings'));
     const moduleChecks = build0GModuleChecks({
       blobConfigured: env.blobConfigured,
       vectorDatabaseConfigured: Boolean(env.databaseUrl),
