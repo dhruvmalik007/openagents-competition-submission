@@ -1,6 +1,9 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
+  NEXT_PUBLIC_PRIVY_APP_ID: z.string().optional(),
+  PRIVY_APP_ID: z.string().optional(),
+  PRIVY_APP_SECRET: z.string().optional(),
   AEGIS_REPO_ROOT: z.string().optional(),
   AEGIS_DATA_ROOT: z.string().optional(),
   AEGIS_VECTOR_DIMENSION: z.coerce.number().default(1536),
@@ -18,6 +21,9 @@ const envSchema = z.object({
 });
 
 const parsed = envSchema.parse({
+  NEXT_PUBLIC_PRIVY_APP_ID: process.env.NEXT_PUBLIC_PRIVY_APP_ID,
+  PRIVY_APP_ID: process.env.PRIVY_APP_ID,
+  PRIVY_APP_SECRET: process.env.PRIVY_APP_SECRET,
   AEGIS_REPO_ROOT: process.env.AEGIS_REPO_ROOT,
   AEGIS_DATA_ROOT: process.env.AEGIS_DATA_ROOT,
   AEGIS_VECTOR_DIMENSION: process.env.AEGIS_VECTOR_DIMENSION,
@@ -35,6 +41,9 @@ const parsed = envSchema.parse({
 });
 
 export const env = {
+  privyPublicAppId: parsed.NEXT_PUBLIC_PRIVY_APP_ID,
+  privyAppId: parsed.PRIVY_APP_ID,
+  privyAppSecret: parsed.PRIVY_APP_SECRET,
   repoRoot: parsed.AEGIS_REPO_ROOT,
   dataRoot: parsed.AEGIS_DATA_ROOT,
   vectorDimension: parsed.AEGIS_VECTOR_DIMENSION,
