@@ -4,7 +4,6 @@ import { Button } from '../../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import type { RektIncidentRecord, SoloditFindingRecord } from '../../lib/types';
 import { listEtlJobs, readDatasetRecords } from '../../lib/server/etl';
-import { fetchRekt2026Incidents, fetchSoloditFindings } from '../../lib/server/threat-intel';
 import { formatDate, formatNumber } from '../../lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -18,30 +17,32 @@ function severityVariant(severity: SoloditFindingRecord['severity']) {
 export default async function EtlPage() {
   const warnings: string[] = [];
   const jobs = await listEtlJobs();
-  const storedRekt = await readDatasetRecords<RektIncidentRecord>('rekt-incidents');
-  const storedSolodit = await readDatasetRecords<SoloditFindingRecord>('solodit-findings');
-
-  const rektIncidents = storedRekt.length > 0
-    ? storedRekt
-    : await fetchRekt2026Incidents().catch((error) => {
-      warnings.push(`Rekt source fetch failed: ${error instanceof Error ? error.message : String(error)}`);
-      return [] as RektIncidentRecord[];
-    });
-
-  const soloditFindings = storedSolodit.length > 0
-    ? storedSolodit
-    : await fetchSoloditFindings({ maxFindings: 1200 }).catch((error) => {
-      warnings.push(`Solodit source fetch failed: ${error instanceof Error ? error.message : String(error)}`);
-      return [] as SoloditFindingRecord[];
-    });
+  // Only read from cache — live fetches happen via /api/etl/run to avoid SSR timeouts
+  const rektIncidents = await readDatasetRecords<RektIncidentRecord>('rekt-incidents');
+  const soloditFindings = await readDatasetRecords<SoloditFindingRecord>('solodit-findings');
 
   const severityCounts = soloditFindings.reduce<Record<string, number>>((accumulator, finding) => {
     accumulator[finding.severity] = (accumulator[finding.severity] ?? 0) + 1;
     return accumulator;
   }, {});
 
+  const hasData = rektIncidents.length > 0 || soloditFindings.length > 0;
+
   return (
     <div className="space-y-6 pb-8">
+      {!hasData && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-amber-400" />No cached data yet</CardTitle>
+            <CardDescription>The ETL pipeline hasn't run yet or no Blob storage is configured. Trigger a refresh to seed the datasets — this may take up to 60 seconds.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form action="/api/etl/run" method="post">
+              <Button type="submit">Trigger ETL refresh now</Button>
+            </form>
+          </CardContent>
+        </Card>
+      )}
       <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <Card>
           <CardHeader>

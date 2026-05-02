@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { runEtl } from '../../../../lib/server/etl';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 function resolveSource(request: Request) {
   const url = new URL(request.url);
