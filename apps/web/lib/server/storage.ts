@@ -6,13 +6,17 @@ import { getDataRoot } from './paths';
 
 export async function writeArtifact(path: string, payload: string): Promise<string> {
   if (env.blobConfigured) {
-    const blob = await put(path, payload, {
-      access: 'public',
-      addRandomSuffix: false,
-      allowOverwrite: true,
-      contentType: 'application/json'
-    });
-    return blob.url;
+    try {
+      const blob = await put(path, payload, {
+        access: 'public',
+        addRandomSuffix: false,
+        allowOverwrite: true,
+        contentType: 'application/json'
+      });
+      return blob.url;
+    } catch {
+      // Fall back to local writable runtime storage when Blob is unavailable.
+    }
   }
 
   const target = join(getDataRoot(), path);
