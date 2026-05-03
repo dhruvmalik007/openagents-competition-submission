@@ -8,6 +8,7 @@ import { loadBundledProtocolInventory } from '@aegis-arena/contracts';
 import { registerLoginCommands } from './commands/login-safe.js';
 import { registerOgCommands } from './commands/og.js';
 import { registerSimCommands } from './commands/sim.js';
+import { registerWorkflowCommands } from './commands/workflow.js';
 
 declare const process: { argv: string[] };
 
@@ -16,6 +17,7 @@ const program = new Command();
 registerLoginCommands(program);
 registerOgCommands(program);
 registerSimCommands(program);
+registerWorkflowCommands(program);
 
 program
   .name('aegis')

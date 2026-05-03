@@ -667,7 +667,7 @@ function aggregateLogs(logs: ProtocolEpisodeLog[]): SimRunManifest['aggregate'] 
   };
 }
 
-async function handleSimRun(options: SimRunOptions): Promise<void> {
+export async function handleSimRun(options: SimRunOptions): Promise<void> {
   const episodes = Number(options.episodes);
   const steps = Number(options.steps);
   const inferenceMode = options.inference ?? 'heuristic';
@@ -851,7 +851,7 @@ function buildTrajectoryFromLogs(input: {
   };
 }
 
-async function handleSimTrain(options: SimTrainOptions): Promise<void> {
+export async function handleSimTrain(options: SimTrainOptions): Promise<void> {
   const rounds = Number(options.rounds);
   const variants = Number(options.variants);
   const episodes = Number(options.episodes);
