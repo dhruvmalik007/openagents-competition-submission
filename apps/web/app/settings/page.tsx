@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../..
 import { loadLatestPublishedCliSession } from '../../lib/server/auth';
 import { env } from '../../lib/server/env';
 import { galileoTestnet, getOgRuntimeReadiness, mainnet } from '../../lib/server/og';
+import { buildOnChainActivity } from '../../lib/server/product-roadmap';
 import { getVectorSpec } from '../../lib/server/vector';
 
 export const dynamic = 'force-dynamic';
@@ -20,13 +21,14 @@ export default async function SettingsPage() {
     inferenceServiceUrl: env.ogInferenceServiceUrl
   });
   const activeNetwork = sdkReadiness.network === 'mainnet' ? mainnet : galileoTestnet;
+  const onChainActivity = buildOnChainActivity(session?.safeAddress ?? null, session?.publishedAt);
 
   return (
     <div className="space-y-6 pb-8">
       <Card>
         <CardHeader>
           <CardTitle>Runtime settings</CardTitle>
-          <CardDescription>Deployment-facing configuration for session auth, storage, vector search, and ETL persistence.</CardDescription>
+          <CardDescription>Deployment-facing configuration for session auth, storage, vector search, ETL persistence, and future settlement visibility.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 lg:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
@@ -44,6 +46,11 @@ export default async function SettingsPage() {
           <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
             <div className="mb-2 font-medium">0G SDK target</div>
             <div className="text-muted-foreground">{activeNetwork.networkName} · chain {activeNetwork.chainId} · {sdkReadiness.indexerRpcUrl}</div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
+            <div className="mb-2 font-medium">On-chain visibility</div>
+            <div className="text-muted-foreground">{onChainActivity.walletLabel}</div>
+            <div className="mt-1 text-muted-foreground">{onChainActivity.paymentReference}</div>
           </div>
         </CardContent>
       </Card>

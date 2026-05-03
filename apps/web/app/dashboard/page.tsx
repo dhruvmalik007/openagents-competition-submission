@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Route } from 'next';
-import { ArrowRight, Bot, DatabaseZap, Settings2 } from 'lucide-react';
+import { ArrowRight, Bot, DatabaseZap, Map, Settings2 } from 'lucide-react';
 import { Hero } from '../../components/dashboard/hero';
 import { MetricCards } from '../../components/dashboard/metric-cards';
 import { ChartsPanel } from '../../components/dashboard/charts-panel';
@@ -8,6 +8,8 @@ import { ProtocolTable } from '../../components/dashboard/protocol-table';
 import { RunTable } from '../../components/dashboard/run-table';
 import { AuthAndVector } from '../../components/dashboard/auth-and-vector';
 import { PipelinePanel } from '../../components/dashboard/pipeline-panel';
+import { MissionControlPanel } from '../../components/dashboard/mission-control-panel';
+import { RoadmapPreview } from '../../components/dashboard/roadmap-preview';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { getDashboardSnapshot } from '../../lib/server/dashboard';
 import { listEtlJobs } from '../../lib/server/etl';
@@ -33,6 +35,12 @@ const quickLinks: Array<{ href: string; title: string; description: string; icon
     title: 'Runtime settings',
     description: 'Inspect storage, vector, Safe-session, and deployment-level configuration.',
     icon: Settings2
+  },
+  {
+    href: '/roadmap',
+    title: 'Implementation roadmap',
+    description: 'Track which pitch features are already live and which small UI/data upgrades land next.',
+    icon: Map
   }
 ];
 
@@ -43,7 +51,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6 pb-8">
-      <section className="grid gap-4 lg:grid-cols-3">
+      <section className="grid gap-4 lg:grid-cols-4">
         {quickLinks.map((item) => {
           const Icon = item.icon;
           return (
@@ -72,16 +80,18 @@ export default async function DashboardPage() {
 
       <Hero overview={snapshot.overview} />
       <MetricCards overview={snapshot.overview} />
+      <MissionControlPanel overview={snapshot.overview} />
       <ChartsPanel overview={snapshot.overview} timeseries={snapshot.timeseries} />
       <PipelinePanel overview={snapshot.overview} jobs={jobs} spec={spec} />
+      <RoadmapPreview overview={snapshot.overview} />
       <AuthAndVector overview={snapshot.overview} spec={spec} />
       <ProtocolTable protocols={snapshot.protocols} />
       <RunTable runs={snapshot.runs.slice(0, 12)} />
 
       <Card>
         <CardHeader>
-          <CardTitle>Why this is split now</CardTitle>
-          <CardDescription>The control plane keeps the original telemetry views, but operational tasks now live on dedicated pages instead of one long dashboard.</CardDescription>
+          <CardTitle>Why the app is structured this way</CardTitle>
+          <CardDescription>The control plane keeps telemetry on the dashboard, exploit context on ETL, 0G runtime posture on Modules, implementation sequencing on Roadmap, and deployment trust signals on Settings.</CardDescription>
         </CardHeader>
       </Card>
     </div>

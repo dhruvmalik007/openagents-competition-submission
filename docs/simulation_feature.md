@@ -3,6 +3,7 @@
 ## Overview
 this documentation explains the  `sim replay` command that pretty-prints recorded episode trajectories in human-readable format with color-coded output, rewards visualization, and turn-by-turn analytics.
 
+
 ## Features
 
 ### Command Signature
@@ -37,6 +38,7 @@ The replay command displays each episode with:
 
 ### 3. **Turn-by-Turn Actions** (🎮 TURN-BY-TURN ACTIONS)
 For each step in the episode:
+  - these actions are to be implemented as the 
 - **Agent & Action**: Color-coded agent role with action type
   - 🔴 Attacker (red)
   - 🟡 CISO (yellow)

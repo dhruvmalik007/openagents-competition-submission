@@ -213,6 +213,11 @@ export type DashboardOverview = {
     vectorDbConfigured: boolean;
     vectorDimension: number;
   };
+  missionControl: MissionControlSummary;
+  operatorActions: OperatorActionRecord[];
+  promptTemplates: PromptTemplateRecord[];
+  roadmap: RoadmapItemRecord[];
+  onChainActivity: OnChainActivityRecord;
 };
 
 export type DashboardSnapshot = {
@@ -220,6 +225,55 @@ export type DashboardSnapshot = {
   protocols: ProtocolDashboardRecord[];
   runs: SimulationRunRecord[];
   timeseries: DashboardTimePoint[];
+};
+
+export type MissionControlSummary = {
+  heading: string;
+  phase: 'awaiting-run' | 'monitoring' | 'training-ready';
+  statusLabel: string;
+  summary: string;
+  runId?: string;
+  scenarioId?: string;
+  networkLabel: string;
+  protocolCount: number;
+  episodeBudget: number;
+  stepsPerEpisode: number;
+  inferenceTrack: string;
+  lastUpdatedAt?: string;
+  roleLabels: string[];
+};
+
+export type OperatorActionRecord = {
+  id: string;
+  title: string;
+  detail: string;
+  status: 'ready' | 'attention' | 'planned';
+  targetSurface: 'dashboard' | 'etl' | 'modules' | 'settings' | 'roadmap';
+};
+
+export type PromptTemplateRecord = {
+  id: string;
+  title: string;
+  objective: string;
+  roles: Array<'attacker' | 'ciso' | 'defender' | 'judge'>;
+  recommendedSurface: 'dashboard' | 'etl' | 'modules';
+};
+
+export type RoadmapItemRecord = {
+  id: string;
+  phase: 'live-now' | 'next-up' | 'roadmap';
+  title: string;
+  summary: string;
+  targetSurface: 'dashboard' | 'etl' | 'modules' | 'settings' | 'roadmap';
+  dependency: string;
+};
+
+export type OnChainActivityRecord = {
+  walletLabel: string;
+  settlementStatus: 'awaiting-session' | 'ready-for-surface' | 'roadmapped';
+  paymentReference: string;
+  note: string;
+  lastUpdatedAt?: string;
 };
 
 export type VectorDocumentRecord = {

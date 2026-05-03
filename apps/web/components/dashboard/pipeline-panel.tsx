@@ -13,6 +13,9 @@ export function PipelinePanel({ overview, jobs, spec }: { overview: DashboardOve
           <CardDescription>Vercel Functions materialize local telemetry plus Rekt News, Solodit, and 0G module-check datasets as append-friendly JSONL artifacts.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-sm">
+          <div className="rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4 text-amber-200">
+            Use the freshest ETL findings to seed the next red-team prompt, then launch the scenario from the CLI workflow so the dashboard can monitor the result.
+          </div>
           <div className="grid gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
             <div className="flex items-center justify-between"><span className="text-muted-foreground">Storage backend</span><Badge>{overview.pipelineHealth.blobConfigured ? 'Vercel Blob' : 'Local filesystem'}</Badge></div>
             <div className="flex items-center justify-between"><span className="text-muted-foreground">Function shape</span><span>Route Handlers + cron</span></div>

@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { usePathname } from 'next/navigation';
-import { ActivitySquare, Bot, DatabaseZap, LayoutDashboard, Settings2 } from 'lucide-react';
+import { ActivitySquare, Bot, DatabaseZap, LayoutDashboard, Map, Settings2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 const navigationItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/etl', label: 'ETL Pipeline', icon: DatabaseZap },
   { href: '/modules', label: '0G Modules', icon: Bot },
+  { href: '/roadmap', label: 'Roadmap', icon: Map },
   { href: '/settings', label: 'Settings', icon: Settings2 }
 ];
 
@@ -47,7 +48,7 @@ export function AppNavigation() {
         })}
       </nav>
       <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-muted-foreground">
-        Structured pages for telemetry, live exploit ingestion, module validation, and deployment settings.
+        Structured pages for mission control, exploit ingestion, 0G runtime posture, implementation roadmap, and deployment settings.
       </div>
     </aside>
   );

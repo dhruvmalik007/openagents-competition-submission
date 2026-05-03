@@ -37,8 +37,8 @@ export default async function ModulesPage() {
     <div className="space-y-6 pb-8">
       <Card>
         <CardHeader>
-          <CardTitle>0G module checks</CardTitle>
-          <CardDescription>Operational checkpoints derived from the 0G docs surface: Galileo testnet, inference, storage, fine-tuning, alignment, and operator memory.</CardDescription>
+          <CardTitle>0G execution posture</CardTitle>
+          <CardDescription>Inference status, authenticated compute readiness, storage posture, fine-tuning direction, alignment concepts, and operator-memory signals derived from the 0G stack.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {checks.map((check) => (
@@ -62,7 +62,7 @@ export default async function ModulesPage() {
         <Card>
           <CardHeader>
             <CardTitle>Operator task list</CardTitle>
-            <CardDescription>High-value follow-through items for the multi-agent 0G stack.</CardDescription>
+            <CardDescription>High-value follow-through items for the multi-agent 0G stack and the next wave of mission-control features.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             {[
@@ -78,8 +78,8 @@ export default async function ModulesPage() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>SDK posture</CardTitle>
-            <CardDescription>Official 0G SDK readiness for read-only browsing, authenticated compute, storage writes, memory persistence, and fine-tuning.</CardDescription>
+            <CardTitle>Inference status</CardTitle>
+            <CardDescription>Current 0G SDK readiness for read-only browsing, authenticated compute, storage writes, memory persistence, and future fine-tuning.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div className="rounded-2xl border border-white/10 bg-black/20 p-4">

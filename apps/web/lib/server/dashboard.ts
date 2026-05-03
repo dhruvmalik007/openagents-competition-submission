@@ -3,6 +3,7 @@ import { loadLatestPublishedCliSession } from './auth';
 import { listEpochLogs, listInventories, listSimulationRuns } from './local-repository';
 import { env } from './env';
 import { listEtlJobs } from './etl';
+import { buildOnChainActivity, buildOperatorActions, buildPromptTemplates, buildRoadmapItems } from './product-roadmap';
 import { countVectorDocuments } from './vector';
 
 function buildSimulationRunRecords() {
@@ -113,6 +114,12 @@ export async function getDashboardSnapshot(): Promise<DashboardSnapshot> {
   }
 
   const latestRun = runs[0] ?? null;
+  const latestEpisodes = latestRun?.protocols.reduce((sum, protocol) => sum + protocol.episodeCount, 0) ?? 0;
+  const activeRoles = roleTotals
+    .filter((entry) => entry.actionCount > 0 || entry.memoryWrites > 0 || entry.reward !== 0)
+    .map((entry) => entry.role);
+  const inferredPhase = latestRun ? (runs.length > 1 ? 'training-ready' : 'monitoring') : 'awaiting-run';
+  const onChainActivity = buildOnChainActivity(session?.safeAddress ?? null, latestRun?.completedAt);
   const snapshot: DashboardSnapshot = {
     overview: {
       generatedAt: new Date().toISOString(),
@@ -133,7 +140,30 @@ export async function getDashboardSnapshot(): Promise<DashboardSnapshot> {
         blobConfigured: env.blobConfigured,
         vectorDbConfigured: Boolean(env.databaseUrl),
         vectorDimension: env.vectorDimension
-      }
+      },
+      missionControl: {
+        heading: latestRun ? 'Mission control is live' : 'Awaiting the first workflow run',
+        phase: inferredPhase,
+        statusLabel: latestRun ? 'Monitoring the latest red-team execution' : 'Ready for wallet sync and scenario launch',
+        summary: latestRun
+          ? 'The control plane is tracking the most recent simulation output and is ready to expose richer training, payment, and operator-response metadata.'
+          : 'Use the CLI workflow to seed the first run, then the dashboard becomes the operator view for lifecycle, ETL context, and 0G execution posture.',
+        runId: latestRun?.runId,
+        scenarioId: latestRun?.scenarioId,
+        networkLabel: latestRun?.network ?? '0G-compatible execution path',
+        protocolCount: latestRun?.protocolCount ?? 0,
+        episodeBudget: latestEpisodes,
+        stepsPerEpisode: latestRun?.stepsPerEpisode ?? 0,
+        inferenceTrack: latestRun ? 'Simulation manifest recorded; pair with Modules for 0G execution posture.' : 'Awaiting first simulation manifest.',
+        lastUpdatedAt: latestRun?.completedAt,
+        roleLabels: activeRoles
+      },
+      operatorActions: buildOperatorActions(latestRun, etlJobs.length, env.blobConfigured),
+      promptTemplates: buildPromptTemplates(),
+      onChainActivity,
+      roadmap: buildRoadmapItems().map((item) => item.id === 'onchain-activity'
+        ? { ...item, summary: `${item.summary} Wallet context: ${onChainActivity.walletLabel}.` }
+        : item)
     },
     protocols,
     runs,

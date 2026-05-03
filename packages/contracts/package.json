@@ -19,8 +19,8 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+        "types": "./dist/packages/contracts/src/index.d.ts",
+        "default": "./dist/packages/contracts/src/index.js"
     }
   },
   "scripts": {

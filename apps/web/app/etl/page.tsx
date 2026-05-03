@@ -90,11 +90,14 @@ export default async function EtlPage() {
         <Card>
           <CardHeader>
             <CardTitle>Refresh pipeline</CardTitle>
-            <CardDescription>Run the ETL route to persist the current external sources into JSONL datasets and Blob artifacts.</CardDescription>
+            <CardDescription>Run the ETL route to persist the current external sources into JSONL datasets and Blob artifacts, then use those findings to define the next red-team prompt.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 text-sm">
             <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-muted-foreground">
               Discovery uses server-rendered Rekt article cards and the Solodit sitemap because the main findings UI is client-hydrated.
+            </div>
+            <div className="rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4 text-amber-200">
+              Operator flow: review the newest exploit pattern here, select a prompt template from the dashboard or roadmap, then launch the scenario from the CLI workflow.
             </div>
             <form action="/api/etl/run" method="post">
               <Button type="submit">Trigger ETL refresh</Button>

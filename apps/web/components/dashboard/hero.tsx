@@ -7,23 +7,23 @@ import { formatDate } from '../../lib/utils';
 const highlights = [
   {
     icon: ShieldCheck,
-    title: 'CLI-authenticated Safe sessions',
-    description: 'Browser, private-key, and Ledger flows are surfaced directly from the wallet-auth workflow.'
+    title: 'Wallet-first CLI onboarding',
+    description: 'Browser wallet, Ledger, and Privy-backed flows can bind an operator identity before the web app takes over as mission control.'
   },
   {
     icon: Activity,
-    title: 'Run telemetry from real manifests',
-    description: 'Dashboards aggregate the current inventory and every generated simulation run without frontend-only stubs.'
+    title: 'Mission-control run telemetry',
+    description: 'Dashboards aggregate current inventory, real simulation manifests, and the derived run/operator metadata needed for live demos.'
   },
   {
     icon: DatabaseZap,
     title: 'Blob + JSONL ETL artifacts',
-    description: 'ETL jobs emit append-friendly JSONL datasets that can be written locally or to Vercel Blob.'
+    description: 'ETL jobs emit append-friendly datasets that can seed the next red-team prompt from current exploit intelligence.'
   },
   {
     icon: BrainCircuit,
     title: 'Per-user vector memory',
-    description: 'Each Safe-linked user gets isolated namespaces for protocol notes, RLHF feedback, and replay memory.'
+    description: 'Each wallet-linked user gets isolated namespaces for protocol notes, RLHF feedback, replay memory, and future fine-tuning inputs.'
   }
 ];
 
@@ -43,11 +43,11 @@ export function Hero({ overview }: { overview: DashboardOverview }) {
             </div>
             <div className="space-y-4">
               <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl">
-                A multi-page control plane for red-team telemetry, live threat intel, and 0G agent operations.
+                Mission control for wallet-native red teaming, live threat intel, and 0G-aligned agent operations.
               </h1>
               <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
-                This web app is wired to the same protocol inventories, simulation runs, Safe session model, and RL feedback surfaces that power the CLI.
-                It now separates dashboard, ETL, module validation, and settings workflows while keeping the deployment path Vercel-native: Functions, Blob, JSONL, and pgvector.
+                This web app is wired to the same protocol inventories, simulation runs, wallet session model, and replay-feedback surfaces that power the CLI.
+                It separates dashboard, ETL, module validation, roadmap, and settings workflows while keeping the deployment path Vercel-native: Functions, Blob, JSONL, and pgvector.
               </p>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
@@ -73,11 +73,11 @@ export function Hero({ overview }: { overview: DashboardOverview }) {
         <CardContent className="space-y-4 p-8">
           <div>
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Current identity context</p>
-            <h2 className="mt-2 text-2xl font-semibold">{overview.session?.safeAddress ?? 'No published Safe session yet'}</h2>
+            <h2 className="mt-2 text-2xl font-semibold">{overview.session?.safeAddress ?? 'No published wallet session yet'}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               {overview.session
                 ? `Signer ${overview.session.signerAddress} authenticated via ${overview.session.mode}.`
-                : 'Run `aegis login safe`, then publish the session to this web backend to bind a user dashboard context.'}
+                : 'Run aegis login wallet, then publish the session to this web backend to bind a user dashboard context.'}
             </p>
           </div>
           <div className="space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
