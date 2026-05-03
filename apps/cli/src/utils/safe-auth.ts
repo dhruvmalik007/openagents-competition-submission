@@ -47,6 +47,17 @@ export function createChallenge(safeAddress: string, rpcUrl: string, mode: 'brow
   ].join('\n');
 }
 
+export function createWalletChallenge(rpcUrl: string, mode: 'browser' | 'ledger'): string {
+  const nonce = randomBytes(16).toString('hex');
+  return [
+    'Aegis Arena Wallet Login',
+    `rpc=${rpcUrl}`,
+    `mode=${mode}`,
+    `nonce=${nonce}`,
+    `issued_at=${new Date().toISOString()}`
+  ].join('\n');
+}
+
 export async function loadSafeInfo(safeAddress: string, rpcUrl: string): Promise<SafeInfo> {
   const client = createPublicClient({ transport: http(rpcUrl) });
   const checksummedSafe = getAddress(safeAddress);
@@ -95,9 +106,16 @@ export async function loginWithLedger(derivationPath: string, challenge: string)
   };
 }
 
-function buildBrowserHtml(challenge: string, safeAddress: string): string {
-  const safeLiteral = JSON.stringify(safeAddress);
+function buildBrowserHtml(challenge: string, safeAddress?: string): string {
+  const safeLiteral = JSON.stringify(safeAddress ?? null);
   const challengeLiteral = JSON.stringify(challenge);
+  const title = safeAddress ? 'Aegis Arena Safe Login' : 'Aegis Arena Wallet Login';
+  const description = safeAddress
+    ? 'This page signs an Aegis Arena challenge with a wallet account that must already be an owner of the Safe below.'
+    : 'This page signs an Aegis Arena challenge with your personal wallet so the CLI can establish a verified operator session.';
+  const subject = safeAddress
+    ? `<p><strong>Safe:</strong> <code>\n${safeLiteral}\n</code></p>`
+    : '<p><strong>Mode:</strong> <code>Direct wallet authentication</code></p>';
 
   return `<!doctype html>
 <html>
@@ -112,16 +130,13 @@ function buildBrowserHtml(challenge: string, safeAddress: string): string {
     </style>
   </head>
   <body>
-    <h1>Aegis Arena Safe Login</h1>
-    <p>This page signs an Aegis Arena challenge with a wallet account that must already be an owner of the Safe below.</p>
-    <p><strong>Safe:</strong> <code>
-${safeLiteral}
-</code></p>
+    <h1>${title}</h1>
+    <p>${description}</p>
+    ${subject}
     <pre id="challenge"></pre>
     <button id="sign-button">Connect Wallet & Sign Challenge</button>
     <p class="status" id="status">Waiting for wallet connection.</p>
     <script>
-      const safeAddress = ${safeLiteral};
       const challenge = ${challengeLiteral};
       document.getElementById('challenge').textContent = challenge;
 
@@ -145,7 +160,7 @@ ${safeLiteral}
         await fetch('/callback', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ signerAddress, signature, safeAddress })
+          body: JSON.stringify({ signerAddress, signature })
         });
         status.textContent = 'Done. You can close this tab.';
       }
@@ -161,12 +176,12 @@ ${safeLiteral}
 }
 
 async function waitForBrowserSignature(
-  safeAddress: string,
+  safeAddress: string | undefined,
   challenge: string,
   autoOpen: boolean,
   timeoutMs: number
 ): Promise<BrowserLoginResult> {
-  const checksummedSafe = getAddress(safeAddress);
+  const checksummedSafe = safeAddress ? getAddress(safeAddress) : undefined;
 
   return new Promise((resolve, reject) => {
     const server = createServer((req: IncomingMessage, res: ServerResponse) => {
@@ -183,7 +198,7 @@ async function waitForBrowserSignature(
         });
         req.on('end', () => {
           try {
-            const payload = JSON.parse(body) as { signerAddress: string; signature: `0x${string}`; safeAddress: string };
+            const payload = JSON.parse(body) as { signerAddress: string; signature: `0x${string}` };
             res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
             res.end('<html><body><p>Signature received. You can return to the terminal.</p></body></html>');
             server.close();
@@ -231,6 +246,10 @@ export async function loginWithBrowser(safeAddress: string, challenge: string, a
   return waitForBrowserSignature(safeAddress, challenge, autoOpen, timeoutMs);
 }
 
+export async function loginWithBrowserWallet(challenge: string, autoOpen = true, timeoutMs = 120_000): Promise<BrowserLoginResult> {
+  return waitForBrowserSignature(undefined, challenge, autoOpen, timeoutMs);
+}
+
 export async function verifySignedChallenge(challenge: string, signature: `0x${string}`): Promise<Address> {
   return getAddress(await recoverMessageAddress({ message: challenge, signature }));
 }
@@ -268,6 +287,59 @@ export async function buildVerifiedSession(input: {
     expiresAt: expiresAt.toISOString(),
     challenge: input.challenge,
     signature: input.signature,
+    verifiedOwner: true
+  };
+}
+
+export async function buildDirectWalletSession(input: {
+  rpcUrl: string;
+  mode: 'browser' | 'ledger' | 'private-key';
+  challenge: string;
+  signature: `0x${string}`;
+  signerAddress: string;
+}): Promise<SafeSession> {
+  const recoveredAddress = await verifySignedChallenge(input.challenge, input.signature);
+  const claimedAddress = getAddress(input.signerAddress);
+
+  if (!isAddressEqual(recoveredAddress, claimedAddress)) {
+    throw new Error(`Recovered signer ${recoveredAddress} does not match claimed signer ${claimedAddress}.`);
+  }
+
+  const issuedAt = new Date();
+  const expiresAt = new Date(issuedAt.getTime() + 12 * 60 * 60 * 1000);
+
+  return {
+    sessionId: randomUUID(),
+    safeAddress: claimedAddress,
+    signerAddress: claimedAddress,
+    rpcUrl: input.rpcUrl,
+    mode: input.mode,
+    issuedAt: issuedAt.toISOString(),
+    expiresAt: expiresAt.toISOString(),
+    challenge: input.challenge,
+    signature: input.signature,
+    verifiedOwner: true
+  };
+}
+
+export function buildPrivySession(input: {
+  rpcUrl: string;
+  walletAddress: string;
+}): SafeSession {
+  const account = getAddress(input.walletAddress);
+  const issuedAt = new Date();
+  const expiresAt = new Date(issuedAt.getTime() + 12 * 60 * 60 * 1000);
+
+  return {
+    sessionId: randomUUID(),
+    safeAddress: account,
+    signerAddress: account,
+    rpcUrl: input.rpcUrl,
+    mode: 'privy',
+    issuedAt: issuedAt.toISOString(),
+    expiresAt: expiresAt.toISOString(),
+    challenge: `privy:${issuedAt.toISOString()}`,
+    signature: 'privy-authenticated',
     verifiedOwner: true
   };
 }

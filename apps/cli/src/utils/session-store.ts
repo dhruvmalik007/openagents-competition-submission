@@ -7,7 +7,7 @@ export type SafeSession = {
   safeAddress: string;
   signerAddress: string;
   rpcUrl: string;
-  mode: 'browser' | 'private-key' | 'ledger';
+  mode: 'browser' | 'private-key' | 'ledger' | 'privy';
   issuedAt: string;
   expiresAt: string;
   challenge: string;

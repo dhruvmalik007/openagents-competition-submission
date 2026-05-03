@@ -32,8 +32,68 @@ pnpm add -g .local-packages/aegis-arena-cli-*.tgz
 ## Wallet onboarding + web sync
 
 ```bash
-aegis login safe --safe <safe_address> --mode browser
+aegis login wallet
 aegis login sync-web --base-url http://localhost:3000
+```
+
+`aegis login wallet` now prompts the user to choose one of:
+
+- browser wallet login,
+- direct Ledger validation in the CLI,
+- Privy-backed wallet login.
+
+## Packaged end-to-end workflow
+
+After installing the CLI globally, you can run the full demo flow from the packaged command:
+
+```bash
+aegis workflow run \
+   --base-url https://aegis-0g-openagents-hackathon.vercel.app \
+   --inference og-mock \
+   --episodes 1 \
+   --steps 8 \
+   --slug rhea-finance
+```
+
+This performs four steps in order:
+
+1. opens the Safe-owner login flow and stores the local CLI session,
+2. syncs that session to the web control plane,
+3. triggers the ETL refresh route on the web app,
+4. runs the local multi-agent simulation using the 0G-backed inference mode you choose.
+
+If you omit `--auth`, the workflow prompts the user to choose:
+
+- browser wallet,
+- Ledger,
+- Privy.
+
+To force a specific login mode:
+
+```bash
+aegis workflow run --auth ledger --base-url https://aegis-0g-openagents-hackathon.vercel.app
+aegis workflow run --auth browser --base-url https://aegis-0g-openagents-hackathon.vercel.app
+aegis workflow run --auth privy --address <wallet_address> --privy-access-token <token> --base-url https://aegis-0g-openagents-hackathon.vercel.app
+```
+
+To run the training variant instead of a single simulation:
+
+```bash
+aegis workflow train \
+   --base-url https://aegis-0g-openagents-hackathon.vercel.app \
+   --inference og-mock \
+   --rounds 2 \
+   --variants 3 \
+   --episodes 1 \
+   --steps 8 \
+   --slug rhea-finance
+```
+
+If you want to inspect the underlying 0G SDK posture before running the workflow:
+
+```bash
+aegis og status
+aegis og providers --service inference --detailed
 ```
 
 For Galileo RPC (default):

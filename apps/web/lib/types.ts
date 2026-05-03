@@ -21,7 +21,7 @@ export type ProtocolInventory = {
   }>;
 };
 
-export type CliSessionMode = 'browser' | 'private-key' | 'ledger';
+export type CliSessionMode = 'browser' | 'private-key' | 'ledger' | 'privy';
 
 export type CliSession = {
   sessionId: string;

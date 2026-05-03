@@ -145,8 +145,7 @@ If you have the web app running locally, publish your profile:
 
 # From CLI, sync your profile to the web control plane
 pnpm --filter @aegis-arena/cli dev -- login sync-web \
-  --base-url http://localhost:3000 \
-  --session-id $(cat ~/.aegis-arena/sessions/*.json | jq -r '.sessionId')
+  --base-url http://localhost:3000
 ```
 
 **What happens:**
@@ -154,6 +153,41 @@ pnpm --filter @aegis-arena/cli dev -- login sync-web \
 2. Web backend validates token signature
 3. Profile appears in web dashboard
 4. Vector memory store is initialized for the user
+
+### Step 1.4: Fast packaged workflow for demos
+
+If you want to demonstrate the whole path using the packaged CLI instead of invoking each command manually, use one of these:
+
+```bash
+# End-to-end login + sync + ETL refresh + simulation run
+aegis workflow run \
+  --safe 0x1234...5678 \
+  --base-url https://aegis-0g-openagents-hackathon.vercel.app \
+  --mode browser \
+  --inference og-mock \
+  --episodes 1 \
+  --steps 8 \
+  --slug rhea-finance
+
+# End-to-end login + sync + ETL refresh + policy training
+aegis workflow train \
+  --safe 0x1234...5678 \
+  --base-url https://aegis-0g-openagents-hackathon.vercel.app \
+  --mode browser \
+  --inference og-mock \
+  --rounds 2 \
+  --variants 3 \
+  --episodes 1 \
+  --steps 8 \
+  --slug rhea-finance
+```
+
+These workflow commands do four things in sequence:
+
+1. authenticate the Safe owner and persist the local CLI session,
+2. sync the session to the web control plane,
+3. trigger the remote ETL refresh route,
+4. run either the simulation or the GRPO-based training loop with the selected 0G-backed inference mode.
 
 ---
 
