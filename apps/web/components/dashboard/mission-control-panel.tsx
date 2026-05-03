@@ -34,6 +34,9 @@ function settlementVariant(status: DashboardOverview['onChainActivity']['settlem
 }
 
 export function MissionControlPanel({ overview }: { overview: DashboardOverview }) {
+  const latestInference = overview.latestRun?.inferenceSummary;
+  const latestActions = overview.latestRun?.latestAgentActions ?? [];
+
   return (
     <section className="grid gap-6 xl:grid-cols-2">
       <Card>
@@ -146,6 +149,62 @@ export function MissionControlPanel({ overview }: { overview: DashboardOverview 
               </div>
             ))}
           </div>
+        </CardContent>
+      </Card>
+
+      <Card className="xl:col-span-2">
+        <CardHeader>
+          <CardTitle>Latest inference result</CardTitle>
+          <CardDescription>Concrete agent outputs from the most recent simulation run, including provider, confidence, attestation surface, and action rationale.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 text-sm">
+          {latestInference ? (
+            <>
+              <div className="grid gap-3 sm:grid-cols-4">
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="text-muted-foreground">Inference mode</div>
+                  <div className="mt-2 font-medium">{latestInference.mode}</div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="text-muted-foreground">Model</div>
+                  <div className="mt-2 font-medium">{latestInference.model}</div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="text-muted-foreground">Inference calls</div>
+                  <div className="mt-2 font-medium">{formatCompactNumber(latestInference.totalInferenceCalls)}</div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="text-muted-foreground">Attested responses</div>
+                  <div className="mt-2 font-medium">{formatCompactNumber(latestInference.attestedResponses)}</div>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-muted-foreground">
+                Providers: {latestInference.providers.length > 0 ? latestInference.providers.join(', ') : 'No provider surfaced yet'}
+                {latestInference.notes.length > 0 ? ` · Notes: ${latestInference.notes.join(' | ')}` : ''}
+              </div>
+              <div className="grid gap-3 lg:grid-cols-2">
+                {latestActions.map((action) => (
+                  <div key={`${action.role}-${action.timestamp}`} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="mb-2 flex items-start justify-between gap-3">
+                      <div className="font-medium">{action.role}</div>
+                      <Badge variant={action.signaturePresent || action.remoteAttestationPresent ? 'success' : 'warning'}>
+                        {action.signaturePresent || action.remoteAttestationPresent ? 'attested' : 'no attestation surfaced'}
+                      </Badge>
+                    </div>
+                    <div className="text-muted-foreground">Action: {action.actionType} · intensity {action.intensity.toFixed(2)}</div>
+                    {action.provider ? <div className="mt-1 text-muted-foreground">Provider: {action.provider}</div> : null}
+                    {typeof action.confidence === 'number' ? <div className="mt-1 text-muted-foreground">Confidence: {action.confidence.toFixed(2)}</div> : null}
+                    {action.rationale ? <div className="mt-3 rounded-xl bg-black/30 p-3 text-foreground">{action.rationale}</div> : null}
+                    {action.uncertainty ? <div className="mt-3 text-xs text-amber-200">{action.uncertainty}</div> : null}
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-white/10 p-6 text-muted-foreground">
+              No concrete inference result has been published yet. Run the workflow with real 0G inference and publish the result to populate this panel.
+            </div>
+          )}
         </CardContent>
       </Card>
     </section>

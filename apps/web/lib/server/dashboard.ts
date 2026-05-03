@@ -3,14 +3,24 @@ import { loadLatestPublishedCliSession } from './auth';
 import { listEpochLogs, listInventories, listSimulationRuns } from './local-repository';
 import { env } from './env';
 import { listEtlJobs } from './etl';
+import { listPublishedSimulationRuns } from './published-simulations';
 import { buildOnChainActivity, buildOperatorActions, buildPromptTemplates, buildRoadmapItems } from './product-roadmap';
 import { countVectorDocuments } from './vector';
 
-function buildSimulationRunRecords() {
-  return listSimulationRuns().map((run) => ({
+async function buildSimulationRunRecords() {
+  const localRuns = listSimulationRuns().map((run) => ({
     ...run,
-    agentInstanceCount: run.protocols.reduce((sum: number, protocol: SimulationRunRecord['protocols'][number]) => sum + protocol.episodeCount * 4, 0)
+    agentInstanceCount: run.protocols.reduce((sum: number, protocol: SimulationRunRecord['protocols'][number]) => sum + protocol.episodeCount * 4, 0),
+    source: 'local-repository' as const
   } satisfies SimulationRunRecord));
+
+  const publishedRuns = await listPublishedSimulationRuns();
+  const deduped = new Map<string, SimulationRunRecord>();
+  for (const run of [...localRuns, ...publishedRuns]) {
+    deduped.set(run.runId, run);
+  }
+
+  return Array.from(deduped.values()).sort((a, b) => b.completedAt.localeCompare(a.completedAt));
 }
 
 function buildProtocolRecords(runs: SimulationRunRecord[]): ProtocolDashboardRecord[] {
@@ -85,7 +95,7 @@ function buildTimeSeries(runs: SimulationRunRecord[]): DashboardTimePoint[] {
 }
 
 export async function getDashboardSnapshot(): Promise<DashboardSnapshot> {
-  const runs = buildSimulationRunRecords();
+  const runs = await buildSimulationRunRecords();
   const protocols = buildProtocolRecords(runs);
   const timeseries = buildTimeSeries(runs);
   const session = await loadLatestPublishedCliSession();
@@ -102,7 +112,7 @@ export async function getDashboardSnapshot(): Promise<DashboardSnapshot> {
   const roleMap = new Map(roleTotals.map((entry) => [entry.role, entry]));
 
   for (const run of runs) {
-    for (const epoch of listEpochLogs(run.runId)) {
+    for (const epoch of run.epochLogs ?? listEpochLogs(run.runId)) {
       for (const agent of epoch.agents) {
         const current = roleMap.get(agent.role);
         if (!current) continue;

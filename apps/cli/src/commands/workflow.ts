@@ -52,6 +52,30 @@ async function triggerEtl(baseUrl: string): Promise<void> {
   console.log(JSON.stringify({ etl: payload }, null, 2));
 }
 
+async function publishSimulationRun(baseUrl: string, run: Awaited<ReturnType<typeof handleSimRun>>, privyAccessToken?: string): Promise<void> {
+  const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
+  const headers: Record<string, string> = {
+    'content-type': 'application/json'
+  };
+  if (privyAccessToken?.trim()) {
+    headers.authorization = `Bearer ${privyAccessToken.trim()}`;
+  }
+
+  const response = await fetch(`${normalizedBaseUrl}/api/simulation/publish`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(run)
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`Failed to publish simulation run to web backend (${response.status}). ${body}`);
+  }
+
+  const payload = await response.json();
+  console.log(JSON.stringify({ publishedRun: payload }, null, 2));
+}
+
 async function chooseWorkflowAuthMode(): Promise<'browser' | 'ledger' | 'privy'> {
   const rl = createInterface({ input, output });
   try {
@@ -132,7 +156,7 @@ export function registerWorkflowCommands(program: Command): void {
     .action(async (options: WorkflowRunOptions) => {
       await bootstrapWorkflow(options);
       console.log('==> Step 4/4: running multi-agent simulation');
-      await handleSimRun({
+      const result = await handleSimRun({
         scenario: options.scenario,
         episodes: options.episodes,
         steps: options.steps,
@@ -140,6 +164,8 @@ export function registerWorkflowCommands(program: Command): void {
         inference: options.inference,
         model: options.model as never
       });
+      console.log('==> Publishing concrete simulation results to the web control plane');
+      await publishSimulationRun(options.baseUrl, result, options.privyAccessToken);
     });
 
   workflow

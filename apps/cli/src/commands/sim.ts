@@ -8,6 +8,7 @@ import type { InferenceModel } from '@aegis-arena/og';
 import { GRPOTrainer, MultiAgentPolicyCoordinator } from '@aegis-arena/rl-policy';
 import type { PolicyCheckpoint, Trajectory } from '@aegis-arena/rl-policy';
 import type { ProtocolInventory } from '@aegis-arena/etl';
+import { loadSession } from '../utils/session-store.js';
 
 type ProtocolSummary = {
   incidentReference: string;
@@ -85,6 +86,7 @@ type OpenEnvActionLog = {
     actionType: string;
     target: string;
     intensity: number;
+    rationale?: string;
   };
   inference?: {
     mode: 'heuristic' | 'og-mock' | 'og-sealed';
@@ -94,6 +96,7 @@ type OpenEnvActionLog = {
     remoteAttestationPresent: boolean;
     confidence?: number;
     uncertainty?: string;
+    rationale?: string;
   };
   result: OpenEnvStepResult;
 };
@@ -159,11 +162,43 @@ type SimRunManifest = {
     resourceCount: number;
     episodeCount: number;
   }>;
+  inferenceSummary?: {
+    mode: 'heuristic' | 'og-mock' | 'og-sealed';
+    model: string;
+    totalInferenceCalls: number;
+    attestedResponses: number;
+    providers: string[];
+    fallbackCount: number;
+    notes: string[];
+  };
+  latestAgentActions?: Array<{
+    role: 'attacker' | 'ciso' | 'defender' | 'judge';
+    actionType: string;
+    intensity: number;
+    rationale?: string;
+    provider?: string;
+    confidence?: number;
+    signaturePresent: boolean;
+    remoteAttestationPresent: boolean;
+    uncertainty?: string;
+    timestamp: string;
+  }>;
+  operatorContext?: {
+    safeAddress: string;
+    signerAddress: string;
+    mode: 'browser' | 'private-key' | 'ledger' | 'privy';
+  };
   outputPaths: {
     manifestPath: string;
     epochLogPath: string;
     openenvStepLogPath: string;
   };
+};
+
+type SimRunResult = {
+  manifest: SimRunManifest;
+  epochLogs: ProtocolEpisodeLog[];
+  openEnvStepLogs: OpenEnvActionLog[];
 };
 
 function loadProtocolInventory(filePath: string): ProtocolInventory & { summary?: ProtocolSummary } {
@@ -242,6 +277,7 @@ async function resolveAction(input: {
 }): Promise<{
   actionType: string;
   intensity: number;
+  rationale?: string;
   inferenceMeta: OpenEnvActionLog['inference'];
 }> {
   const legalActions = legalActionsFor(input.actingAgent);
@@ -252,13 +288,15 @@ async function resolveAction(input: {
     return {
       actionType: heuristicActionType,
       intensity: heuristicIntensity,
+      rationale: `Heuristic fallback selected ${heuristicActionType} for ${input.actingAgent} at step ${input.step}.`,
       inferenceMeta: {
         mode: 'heuristic',
         model: 'n/a',
         signaturePresent: false,
         remoteAttestationPresent: false,
         confidence: 1,
-        uncertainty: undefined
+        uncertainty: undefined,
+        rationale: `Heuristic fallback selected ${heuristicActionType} for ${input.actingAgent} at step ${input.step}.`
       }
     };
   }
@@ -287,6 +325,7 @@ async function resolveAction(input: {
   return {
     actionType,
     intensity,
+    rationale: inferenceResponse.action.rationale,
     inferenceMeta: {
       mode: input.inferenceMode,
       model: input.inferenceModel,
@@ -294,9 +333,87 @@ async function resolveAction(input: {
       signaturePresent: Boolean(inferenceResponse.attestation.signature),
       remoteAttestationPresent: Boolean(inferenceResponse.attestation.remoteAttestationReport),
       confidence: inferenceResponse.confidence,
-      uncertainty: inferenceResponse.uncertainty
+      uncertainty: inferenceResponse.uncertainty,
+      rationale: inferenceResponse.action.rationale
     }
   };
+}
+
+function buildInferenceSummary(logs: OpenEnvActionLog[], inferenceMode: 'heuristic' | 'og-mock' | 'og-sealed', inferenceModel: InferenceModel): NonNullable<SimRunManifest['inferenceSummary']> {
+  const stepLogs = logs.filter((entry) => entry.event === 'openenv.step' && entry.inference);
+  const providers = new Set<string>();
+  let attestedResponses = 0;
+  let fallbackCount = 0;
+  const notes = new Set<string>();
+
+  for (const log of stepLogs) {
+    if (!log.inference) continue;
+    if (log.inference.provider) {
+      providers.add(log.inference.provider);
+    }
+    if (log.inference.signaturePresent || log.inference.remoteAttestationPresent) {
+      attestedResponses += 1;
+    }
+    if (log.inference.uncertainty?.includes('Fallback')) {
+      fallbackCount += 1;
+    }
+    if (log.inference.uncertainty) {
+      notes.add(log.inference.uncertainty);
+    }
+  }
+
+  return {
+    mode: inferenceMode,
+    model: inferenceModel,
+    totalInferenceCalls: stepLogs.length,
+    attestedResponses,
+    providers: Array.from(providers),
+    fallbackCount,
+    notes: Array.from(notes).slice(0, 4)
+  };
+}
+
+function buildLatestAgentActions(logs: OpenEnvActionLog[]): NonNullable<SimRunManifest['latestAgentActions']> {
+  const latestByRole = new Map<AgentRole, OpenEnvActionLog>();
+
+  for (const log of logs) {
+    if (log.event !== 'openenv.step' || !log.action?.agent) continue;
+    latestByRole.set(log.action.agent, log);
+  }
+
+  return AGENT_ORDER.flatMap((role) => {
+    const log = latestByRole.get(role);
+    if (!log?.action) return [];
+    return [{
+      role,
+      actionType: log.action.actionType,
+      intensity: log.action.intensity,
+      rationale: log.action.rationale ?? log.inference?.rationale,
+      provider: log.inference?.provider,
+      confidence: log.inference?.confidence,
+      signaturePresent: Boolean(log.inference?.signaturePresent),
+      remoteAttestationPresent: Boolean(log.inference?.remoteAttestationPresent),
+      uncertainty: log.inference?.uncertainty,
+      timestamp: log.timestamp
+    }];
+  });
+}
+
+function printConcreteSimulationSummary(result: SimRunResult): void {
+  const { manifest } = result;
+  console.log(JSON.stringify({
+    runId: manifest.runId,
+    scenarioId: manifest.scenarioId,
+    network: manifest.network,
+    aggregate: manifest.aggregate,
+    inferenceSummary: manifest.inferenceSummary,
+    latestAgentActions: manifest.latestAgentActions,
+    operatorContext: manifest.operatorContext,
+    protocolCount: manifest.protocolCount,
+    episodes: manifest.episodes,
+    startedAt: manifest.startedAt,
+    completedAt: manifest.completedAt
+  }, null, 2));
 }
 
 async function generateOpenEnvTrajectory(input: {
@@ -374,7 +491,7 @@ async function generateOpenEnvTrajectory(input: {
     }
 
     const actingAgent = AGENT_ORDER[(step - 1) % AGENT_ORDER.length];
-    const { actionType, intensity, inferenceMeta } = await resolveAction({
+    const { actionType, intensity, rationale, inferenceMeta } = await resolveAction({
       inferenceMode,
       inferenceClient,
       inferenceModel,
@@ -463,7 +580,8 @@ async function generateOpenEnvTrajectory(input: {
         agent: actingAgent,
         actionType,
         target: protocol.protocolSlug,
-        intensity
+        intensity,
+        rationale
       },
       inference: inferenceMeta,
       result
@@ -667,7 +785,7 @@ function aggregateLogs(logs: ProtocolEpisodeLog[]): SimRunManifest['aggregate'] 
   };
 }
 
-export async function handleSimRun(options: SimRunOptions): Promise<void> {
+export async function handleSimRun(options: SimRunOptions): Promise<SimRunResult> {
   const episodes = Number(options.episodes);
   const steps = Number(options.steps);
   const inferenceMode = options.inference ?? 'heuristic';
@@ -689,13 +807,15 @@ export async function handleSimRun(options: SimRunOptions): Promise<void> {
   const startedAt = new Date();
   const epochLogs: ProtocolEpisodeLog[] = [];
   const openEnvStepLogs: OpenEnvActionLog[] = [];
+  const session = loadSession();
   const inferenceClient = inferenceMode === 'heuristic'
     ? undefined
     : new OgInferenceClient({
       rpcUrl: galileoTestnet.rpcUrl,
       inferenceServiceUrl: galileoTestnet.inference.computeNetworkUrl,
       attestationMode: inferenceMode === 'og-mock' ? 'mock' : 'sealed-inference',
-      supportedModels: [...galileoTestnet.inference.supportedModels]
+      supportedModels: [...galileoTestnet.inference.supportedModels],
+      allowMockFallback: inferenceMode === 'og-mock'
     });
 
   for (const protocol of inventories) {
@@ -782,6 +902,15 @@ export async function handleSimRun(options: SimRunOptions): Promise<void> {
       resourceCount: protocol.offchainResources.length,
       episodeCount: episodes
     })),
+    inferenceSummary: buildInferenceSummary(openEnvStepLogs, inferenceMode, inferenceModel),
+    latestAgentActions: buildLatestAgentActions(openEnvStepLogs),
+    operatorContext: session
+      ? {
+          safeAddress: session.safeAddress,
+          signerAddress: session.signerAddress,
+          mode: session.mode
+        }
+      : undefined,
     outputPaths: {
       manifestPath,
       epochLogPath,
@@ -791,8 +920,14 @@ export async function handleSimRun(options: SimRunOptions): Promise<void> {
 
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 
-  console.log(JSON.stringify(manifest, null, 2));
-  console.log(`Wrote epoch logs to ${epochLogPath}`);
+  const result = {
+    manifest,
+    epochLogs,
+    openEnvStepLogs
+  } satisfies SimRunResult;
+
+  printConcreteSimulationSummary(result);
+  return result;
 }
 
 function createBaseCheckpoint(role: AgentRole, model: string): PolicyCheckpoint {

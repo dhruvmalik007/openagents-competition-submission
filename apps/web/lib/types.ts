@@ -67,11 +67,41 @@ export type SimulationManifest = {
     resourceCount: number;
     episodeCount: number;
   }>;
+  inferenceSummary?: SimulationInferenceSummary;
+  latestAgentActions?: SimulationAgentActionSummary[];
+  operatorContext?: {
+    safeAddress: string;
+    signerAddress: string;
+    mode: CliSessionMode;
+  };
   outputPaths: {
     manifestPath: string;
     epochLogPath: string;
     openenvStepLogPath: string;
   };
+};
+
+export type SimulationInferenceSummary = {
+  mode: 'heuristic' | 'og-mock' | 'og-sealed';
+  model: string;
+  totalInferenceCalls: number;
+  attestedResponses: number;
+  providers: string[];
+  fallbackCount: number;
+  notes: string[];
+};
+
+export type SimulationAgentActionSummary = {
+  role: 'attacker' | 'ciso' | 'defender' | 'judge';
+  actionType: string;
+  intensity: number;
+  rationale?: string;
+  provider?: string;
+  confidence?: number;
+  signaturePresent: boolean;
+  remoteAttestationPresent: boolean;
+  uncertainty?: string;
+  timestamp: string;
 };
 
 export type EpochLog = {
@@ -179,6 +209,18 @@ export type ProtocolDashboardRecord = {
 
 export type SimulationRunRecord = SimulationManifest & {
   agentInstanceCount: number;
+  epochLogs?: EpochLog[];
+  source?: 'local-repository' | 'published-api';
+};
+
+export type PublishedSimulationRun = {
+  manifest: SimulationManifest;
+  epochLogs: EpochLog[];
+  openEnvStepLogs?: Array<{
+    event: 'openenv.reset' | 'openenv.step' | 'openenv.state';
+    timestamp: string;
+  }>;
+  publishedAt: string;
 };
 
 export type DashboardTimePoint = {

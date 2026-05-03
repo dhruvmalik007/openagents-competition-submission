@@ -161,6 +161,7 @@ export class OgInferenceClient {
   private readonly gasPrice?: number;
   private readonly maxGasPrice?: number;
   private readonly step?: number;
+  private readonly allowMockFallback: boolean;
   private brokerPromise: Promise<ZGComputeNetworkBroker> | null = null;
   private providerCache: Map<string, string> = new Map();
 
@@ -176,6 +177,7 @@ export class OgInferenceClient {
     gasPrice?: number;
     maxGasPrice?: number;
     step?: number;
+    allowMockFallback?: boolean;
   }) {
     const runtime = resolveOgRuntimeConfig({
       rpcUrl: config.rpcUrl,
@@ -204,6 +206,7 @@ export class OgInferenceClient {
     this.gasPrice = runtime.gasPrice;
     this.maxGasPrice = runtime.maxGasPrice;
     this.step = runtime.step;
+    this.allowMockFallback = config.allowMockFallback ?? this.attestationMode === 'mock';
   }
 
   /**
@@ -275,6 +278,10 @@ export class OgInferenceClient {
         uncertainty: completion.uncertainty
       };
     } catch (error) {
+      if (!this.allowMockFallback) {
+        throw new Error(`0G inference failed without mock fallback: ${error instanceof Error ? error.message : String(error)}`);
+      }
+
       const fallback = this.generateMockResponse(request);
       return {
         ...fallback,

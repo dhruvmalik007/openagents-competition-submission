@@ -1,5 +1,143 @@
 # Aegis Arena — ETHGlobal Final Pitch and End-to-End Demo Runbook
 
+## 0. Four-minute live demo workflow
+
+If I only have **4 minutes**, this is the exact workflow I should follow.
+
+### Minute 0:00 - 0:30 — Open with the problem
+
+Say:
+
+> “Most crypto security tooling is reactive. Teams read incident reports after the damage is done. Aegis Arena makes security proactive: I can log in from a wallet-native CLI, run a multi-agent RL-style attack simulation, and monitor the result from a web control plane.”
+
+Then immediately show the app already open on:
+
+- Dashboard
+- ETL
+- Modules
+- Settings
+
+### Minute 0:30 - 1:10 — Show CLI wallet onboarding
+
+Run:
+
+```bash
+aegis login wallet
+```
+
+Say:
+
+> “The operator starts in the CLI. They can authenticate with a browser wallet, Ledger, or Privy. This is important because the same wallet identity is then synced into the web app.”
+
+Then run:
+
+```bash
+aegis login sync-web --base-url https://aegis-0g-openagents-hackathon.vercel.app
+```
+
+Say:
+
+> “Now the CLI identity is published to the web control plane, so the dashboard, memory, and future payment traces all stay tied to the same operator context.”
+
+### Minute 1:10 - 2:00 — Launch the RL-style security simulation
+
+Run:
+
+```bash
+aegis workflow run \
+	--base-url https://aegis-0g-openagents-hackathon.vercel.app \
+	--auth browser \
+	--inference og-sealed \
+	--episodes 1 \
+	--steps 8 \
+	--slug rhea-finance
+```
+
+Say:
+
+> “This launches the end-to-end workflow: authenticate the user, sync the session to the web app, refresh threat-intel, and run a bounded RL-style adversarial simulation.”
+
+Important precondition for the live demo:
+
+> “For a real 0G-backed result instead of a mock fallback, I need the 0G inference path configured before the demo — for example via `AEGIS_OG_PRIVATE_KEY` for broker-authenticated inference, or a valid direct inference setup through the 0G service endpoint. In the refactored flow, sealed inference now fails loudly instead of silently downgrading to a mock result.”
+
+Then explain the scenario in one sentence:
+
+> “In this run, I’m simulating a Web3 attack scenario where an adversarial agent probes exploit paths while defender, CISO, and judge agents evaluate detection, containment, and response quality.”
+
+If I want to make the scenario more specific, say:
+
+> “For example, this can represent oracle manipulation, governance capture, bridge compromise, or coordinated liquidity drain behavior.”
+
+### Minute 2:00 - 2:45 — Show the dashboard as mission control
+
+Switch to the Dashboard page and say:
+
+> “Once the workflow starts, the web app becomes mission control. This is where I monitor the latest run, active agent roles, operator actions, prompt templates, and the roadmap for richer training and on-chain visibility.”
+
+Point out:
+
+- Mission control panel
+- Latest inference result panel
+- Run history table
+- Operator next actions
+- On-chain activity / wallet context
+
+Say:
+
+> “This is the layer that turns a CLI run into something operationally useful for a protocol team.”
+
+### Minute 2:45 - 3:20 — Show threat intelligence feeding the next attack scenario
+
+Switch to the ETL page and say:
+
+> “The simulation is not isolated. The ETL workspace continuously ingests exploit and audit findings, so the operator can use fresh threat-intel to define the next red-team prompt.”
+
+Point out:
+
+- Latest Rekt incidents
+- Solodit findings
+- ETL refresh flow
+
+Then say:
+
+> “So I can see a real exploit pattern here, then immediately launch a related simulation from the CLI.”
+
+### Minute 3:20 - 3:45 — Show 0G inference and runtime posture
+
+Switch to the Modules page and say:
+
+> “This page shows the 0G execution posture: inference readiness, authenticated compute, storage, memory persistence, and the path toward fine-tuning. So the agents are not just conceptual — the runtime is designed to align with decentralized AI infrastructure.”
+
+If needed, add:
+
+> “This is how I connect agent simulation with the 0G SDK story.”
+
+### Minute 3:45 - 4:00 — Close with the value proposition
+
+Finish with:
+
+> “So the full loop is: wallet-native CLI login, simulation launch, RL-style multi-agent Web3 attack testing, and live monitoring in the web control plane. Aegis Arena turns crypto security from a passive audit workflow into an active, explainable, agentic defense system.”
+
+### Best backup variation if I want a training-focused demo
+
+If I want to emphasize training rounds instead of a single run, use:
+
+```bash
+aegis workflow train \
+	--base-url https://aegis-0g-openagents-hackathon.vercel.app \
+	--inference og-mock \
+	--rounds 2 \
+	--variants 3 \
+	--episodes 1 \
+	--steps 8 \
+	--slug rhea-finance
+```
+
+Then say:
+
+> “Instead of one simulation, this runs multiple variants and rounds so I can compare policies and show how the agent system evolves under repeated adversarial pressure.”
+
 ## 1. Core story I should tell
 
 My project, **Aegis Arena**, is a **CLI-first multi-agent security simulation framework built on 0G**. It is designed for a future where DeFi teams do not just read threat reports after an exploit happens, but continuously run autonomous adversarial simulations against their own protocol assumptions.
